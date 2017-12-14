@@ -1,0 +1,1505 @@
+%\chapter{A Shock-in-Time: Post-Inflation Preheating}
+\documentclass[11pt,a4paper]{article}
+\pdfoutput=1
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\graphicspath{{figures/}}
+
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+
+
+\def\lnr{\ln(\rho/\bar{\rho})}
+\def\dlnr{\partial_t\ln(\rho/\bar{\rho})}
+\def\det{\mathrm{det}}
+
+%Additional macros from bb12_shock.tex
+\def\eps{\varepsilon}
+\def\pomega{\varpi}
+\def\avrg#1{{\langle #1 \rangle}}
+\def\half{{\textstyle{1\over2}}}
+\def\eg{{\it e.g., }}
+\def\Trace{{\rm Tr}} 
+\def\bx{{\bf x}} 
+\def\th{{\cal T}}
+\def\data{{\cal D}}
+\def\ie{{\it i.e.,}}
+\def\etc{{\it etc. }}
+\def\half{\textstyle{{1\over 2}}}
+\def\spose#1{\hbox to 0pt{#1\hss}}
+\def\lta{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
+     \raise 2.0pt\hbox{$\mathchar"13C$}}}
+\def\gta{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
+     \raise 2.0pt\hbox{$\mathchar"13E$}}}
+
+
+\begin{document}
+%\label{chpt:shock}
+
+%Papers to cite
+%Entropy for fields~\cite{Brandenberger:1992jh,Prokopec:1992ia,Koksma:2009wa,Koksma:2010dt,Koksma:2010zi,Koksma:2011dy,Koksma:2011fx,Prokopec:2012xv,Giraud:2009tn,Campo:2008ij}
+
+%Jaynes view~\cite{Jaynes:1957zza,Jaynes:1957zz}
+%Shannon~\cite{Shannon,MacKay_book}
+
+%Modulated Reheating~\cite{Kofman:2003nx,Dvali:2003em,Dvali:2003ar,Zaldarriaga:2003my,Bernardeau:2004zz,Ichikawa:2008ne}
+%Preheating Perturbations~\cite{Bond:2009xx,Frolov:2010sz,Chambers:2007se,Chambers:2008gu,Kohri:209ac,Enqvist:2004ey,Enqvist}
+
+%phi4~\cite{Micha:2002ey,Micha:2004bv,Felder,Kofman}
+%Preheating~\cite{Kofman:1994rk,Kofman:1997yn,Shtanov:1994ce}
+%Cite tremain phase mixing paper somewhere.
+
+\section{Introduction}
+Early inflation within our Hubble patch, if it occurred, was driven by the potential energy of an ultra-long wavelength coherent scalar effective field, which caused accelerated expansion of the Universe. This bosonic condensate would have been accompanied by shorter wavelength nearly Gaussian fluctuations of small amplitude. Such nearly Gaussian fluctuations, some possibly correlated with the inflaton, would also have been present in the graviton and any light scalar fields (which we refer to as isocons). Super-Hubble fluctuations led to a condensate of the long wavelength modes, from which the complexity of the Hubble patch that surrounds us must have arisen, ultimately producing a decelerating plasma of standard model particles in local thermal equilibrium. The condensate had low entropy associated with the sub-Hubble fluctuations, while the plasma had high effective thermal entropy ultimately stored  in the photon and neutrino relics within our patch, with a comoving entropy density $S_{\gamma +\nu} \sim  10^{88} /(10 \, {\rm Gpc })^3 $, normalized to 10 Gpc. 
+
+The transition regime connecting the end-of-inflation (when the acceleration/deceleration boundary time-hypersurface was breached) to the hot primordial plasma in local thermal equilibrium is commonly called preheating. 
+During preheating fluctuations experience strong instabilities as a result of the background motion of the long-wavelength condensate.
+When these fluctuations begin to probe the nonlinear regime, strong backreaction and rescattering effects cause the condensate to fracture leaving behind a highly inhomogeneous complex medium.
+%the inflaton back-reacts on itself leading via parametric resonance to the growth of modes and production of what are commonly called `particles'. \textbf{Amend any errors in previous sentence}.
+Past studies have considered many interesting signatures from preheating, including baryogenesis, gravitational waves, topological defect production, and nongaussianities. This chapter will focus on a new potential signature -- spatial and temporal variations in entropy production -- with an eye to connecting them to nongaussianities. 
+
+Preheating is usually explored by following the evolution of classical field equations~\cite{Kofman:1994rk,Kofman:1997yn,Traschen:1990sw,Shtanov:1994ce} which, because of the highly nonlinear nature of mode-mode coupling, invariably requires simulations on a lattice~\cite{Felder:2000hq,Frolov:2008hy,Huang:2011gf,Easther:2010qz,Sainio:2012mw}. Here we follow suit and study entropy production during preheating using high-resolution and highly accurate lattice simulations. During the nonlinear phases of preheating coherent inflaton oscillations must transform into a cascade of spatial modes. We will show using our simulations that the cascade's entropy tracks the transition from coherence to incoherence well.
+
+Our simulations show that in a large class of models a sharp spike in entropy production accompanies the onset of nonlinearities. In an ordinary  gas,  the passage from supersonic to subsonic occurs through a spatial randomization front -- a shock -- where the entropy jumps dominantly over a mediation scale, with jump conditions on conserved variables holding. 
+During preheating a coherent density (with small fluctuations) evolves into an incoherent mix of spatial modes 
+%\color{red} (Does `density' have the same meaning here as earlier in the sentence? If so, you don't need to use it twice. If not, the sentence is currently confusing.) \color{black}
+over a relatively narrow mediation time $\Delta \ln t_s$ at a sharply defined $\ln t_s$ (and expansion factor $\ln a_s = \ln a ({\bf x}, t_s)$). 
+Based on this similarity, we call the phenomenon a {\it shock-in-time}. 
+If $\ln a_s $ varies spatially, a curvature imprint may remain. 
+We apply this idea to a simple model of modulated preheating and find spatial modulations in the shock time that could produce observationally interesting curvature perturbations. 
+%\color{red}(Again, is `modulations' used in the same sense twice here, or does the second instance mean `variations'?) \color{black}
+
+The entropy we use to track the cascade's evolution only strictly applies for an inherently stochastic system. %\textbf{What IS an inherently stochastic system?}
+The only randomness in our simulations comes from the choice of a particular realization of the initial field fluctuations. Once this choice is made, the subsequent evolution is unitary (up to numerical noise). If we had perfect knowlege of the states of all the system variables we would conclude that no entropy had been generated in any one realization. However, we do not have such perfect knowledge -- from a coarse-grained view of the full ``universe-in-a-box" ${\cal U}$, there is a system ${\cal X}$ whose variables we are following and a reservoir ${\cal R}$ of unobserved variables we marginalize over. Although the entropy of the universe $S_{\cal U}$ may be zero or nearly so, classical entanglement of the ${\cal X}$ and ${\cal R}$ variables leads to entropy generation as measured by $S_{\cal X}$.
+
+We may define our field theory in terms of its n-point correlation functions (and potentially some additional information escaping the correlation hierarchy).
+Our choice of system variables is then a few low-order correlators, with the remaining higher-order correlators comprising the reservoir variables.
+In a non-linear theory, the hierarchy of evolution equations for the correlation functions couples the low-order correlators to higher order correlation functions.
+As a result, our system couples to the environmental degrees of freedom, and this interaction leads to the development of system-reservoir and reservoir-reservoir correlations.
+Therefore, information can be carried from the system variables into the reservoir.
+From the viewpoint of an observer with access to only the system variables, this will manifest as a change in the system entropy.
+%As a result, even if the full state of the field theory is initially specified by only the first two correlators,
+%the interaction will lead to the development of system-environment and environment-environment correlations.
+%Thus, information can be carried from the system into the environment, resulting in an increase in entropy of the system degrees of freedom.
+
+We formalize this intuition by defining our entropy via a maximization of the (differential) Shannon entropy subject to the constraints of a set of measurements made on the system.
+Here we will assume that we have made measurements of the covariance matrix for a collection of statistically homogeneous fields.
+For the case of single constrained field, the corresponding entropy is
+\begin{equation}
+  S_{max} = \frac{1}{2}\sum_{\bf k}P({\bf k}) + \frac{N_{lat}}{2}\ln 2\pi + \frac{N_{lat}}{2}
+  \label{eqn:gaussian_entropy_homogeneous}
+\end{equation}
+where $P({\bf k})$ are the eigenvalues of the field's covariance matrix (ie. the power spectrum).
+Analogous expressions have appeared in several past studies~\cite{Brandenberger:1992jh,Prokopec:1992ia,Koksma:2009wa,Koksma:2010dt,Koksma:2010zi,Koksma:2011dy,Koksma:2011fx,Prokopec:2012xv,Campo:2008ij}.
+However, in these works~\eqref{eqn:gaussian_entropy_homogeneous} was derived under the assumption that the fields were multivariate Gaussians.
+As a result, they restricted themselves to linear (or weakly nonlinear) field evolutions and generated entropy by discarding information about cross-correlations between different fields.
+Our use of~\eqref{eqn:gaussian_entropy_homogeneous} is instead motivated by restricted access to higher-point system correlation functions.
+As a result, it applies even if the fields are not Gaussian distributed, even though we are motivated to find approximately Gaussian variables.
+Therefore, we need not restrict ourselves to linear field dynamics and can instead study the stongly nonlinear fluctuation regime.
+One past study used a similar motivation of neglecting higher order correlations functions to study decoherence as a result of nonlinear interactions in scalar field theory~\cite{Giraud:2009tn}.
+
+The presence of additional constraints will modify the above result for the entropy.
+For example, in an inhomogeneous condensate -- such as a collection of topological defects -- there are
+correlations between various Fourier modes, whose entropy is therefore not properly determined by considering only the power spectrum.
+The condensate effectively acts as a background around which the field is constrained to fluctuate.
+Despite this qualification, the presence of a spike in the entropy production around the onset of nonlinearities should be robust even if a condensate forms, and the above caveat thus does not affect our main conclusions.
+In the particular examples considered here, the dominant contribution to the entropy comes from the largest k-modes (which are not part of some slowly varying condensate).
+More generally, if we were to consider a model in which topological defects are produced there would still be a rapid production of entropy at the moment the defects form, 
+followed by additional production of entropy as the defects annihilate or decay.
+
+%In Section \ref{sec:ent} we discuss the general framework for our treatment of non-equilibrium entropy. In  Section \ref{sec:shock}, we show that the entropy is generated at a characteristic shock time $t_s$ over a small mediation width $\Delta t_s$ in time. In Section \ref{sec:curv} we consider the circumstances in which the shock time can be modulated to have long wavelength spatial variations that lead to curvature fluctuations. 
+
+The remainder of this chapter is organized as follows.
+In section~\ref{sec:maxent} we discuss our general framework for non-equilibrium entropy as well as our coarse-graining procedure,
+and then introduce our models and numerical methods in section~\ref{sec:models_numerics}.
+Section~\ref{sec:phonons_m2g2} applies this approach to the variables $\lnr$ and $\dlnr$, where we demonstrate the existence of the shock-in-time.
+We also provide new evidence for the Gaussianity of the low-order statistics of these fields.
+In section~\ref{sec:fields_m2g2} we extend the entropy and statistical calculations to the fundamental field variables, demonstrating that the shock is robust to this variable change but that the fields are noticably nongaussian.
+Section~\ref{sec:noncanonical_entropy} reformulates the Shannon entropy for noncanonical choices of fields variables, allowing us to connect our results for ($\lnr$,$\dlnr$) and the fundmental field variables.
+Explicit calculations of this noncanonical entropy are presented in section~\ref{sec:entropy_phi4}.
+We apply the shock-in-time concept to investigate the production of curvature fluctuations in section~\ref{sec:modulated_preheating},
+then finally conclude.
+
+\section{Non-equilibrium Entropies from Constrained Collective Coordinates and Their Conjugate Forces}
+\label{sec:maxent}
+For a classical random field with $N$ components $q$ distributed according to a probability density functional (PDF) $f_f[q]$,
+we adopt the Shannon information entropy
+\begin{equation}
+  S_{shannon}[f_f] = -\int d^Nq f_f[q]\ln f_f[q] = -\langle \ln f_f \rangle_f
+ \label{eqn:shannon_entropy}
+\end{equation}
+ as our definition of the nonequilibrium entropy~\cite{Shannon:1948,Cover:1991}.
+ We are using the notation $\langle\cdot\rangle_{f}$ to denote averaging with respect to $f_f[q]$.
+When we move to the continuum limit, we have $N \to \infty$ and the integration measure becomes a functional measure $d^Nq \to \mathcal{D}q$.
+In the quantum theory, the field components $q$ become operators $\hat{q}$ and the Shannon entropy is replaced by the von Neumann entropy $S_{vN} = -\mathrm{Tr}\hat{f}[\hat{q}]\ln \hat{f}[\hat{q}]$ involving the trace of the full density matrix $\hat{f}$.
+A significant issue with the Shannon entropy~\eqref{eqn:shannon_entropy} is that for continuous variables it is \emph{not} invariant under variables changes $q \to \tilde{q}(q)$.
+To solve this problem, the Kullback-Leibler (KL) divergence~\cite{Kullback:1951,Cover:1991} (also known as the relative entropy) is often introduced
+\begin{equation}
+  S_{KL}(f_f||f_i) = \int d^Nq f_f[q]\ln\left(\frac{f_f}{f_i}\right)
+\end{equation}
+with the (normalized) reference probability distribution $f_i$ absorbing the effects of the variable change.
+We do not explicitly consider the relative entropy in this paper, although we will explore a very similar approach in section~\ref{sec:noncanonical_entropy}.
+
+Calculation of either the Shannon or von Neumann entropy requires full knowledge of the distribution of parameters, as encoded in either the PDF or density matrix.
+However, acquiring such detailed knowledge is overly ambitious.
+In a realistic scenario reduced information may come from empirical measurements of the probability distributions $P(\bar{\vartheta}) = \avrg{ \delta ( \vartheta(q) - \bar{\vartheta} ) }$ of a set of operators $\vartheta^A (q)$. 
+Even more realistically, the measurements will be of low order ensemble-averaged correlations, in particular their  means $\bar{\vartheta}^A \equiv \avrg{\vartheta^A}$ and variances, 
+\begin{eqnarray}
+  &&
+  C_{\vartheta \vartheta}^{AB} \equiv \avrg{C_{op,\vartheta \vartheta}^{AB}} \\
+&&    \delta \vartheta^A (q) \equiv  \vartheta^A - \bar{\vartheta}^A, \quad C_{op,\vartheta \vartheta}^{AB}(q)  \equiv \delta \vartheta^A \delta \vartheta^A . \nonumber
+\end{eqnarray}
+%These averages are defined {\it wrt} the initial ensemble being probed, namely that defined by $f_i (q)$, rather than the final one defined by $f_f (q)$. 
+Obtaining this set of reduced information about the full statistical properties provides a coarse-grained description of the fields.
+
+This coarse-graining leads to a natural definition of the entropy associated with our limited knowledge of the system properties.
+We define the entropy to be equivalent to that of a field with distribution $f_{ME}$ that maximizes the Shannon entropy subject to the constraints of various measurements.
+Our constraints are in the form of empirical statistical averages for a collection of operators $\vartheta^A$, $\int f_{ME} \vartheta^A = \bar{\vartheta}^A$ and $\int f_{ME} = 1$,
+with the associated Lagrange multipliers denoted by $\kappa_A$ and ${\cal F} \equiv \ln Z$ respectively.
+%The approach taken here defines the entropy a distribution $f_f$ which is equivalent to that found by maximizing the relative entropy subject to the constraint that $\int f_f \vartheta^A = \bar{\vartheta}^A$ and $\int f_f = 1$ with $\kappa_A$ and ${\cal F}$ the associated Lagrange multipiiers.
+Throughout we will refer to this as the maximum entropy (MaxEnt) approach.
+When a solution to the maximization problem exists, the MaxEnt probability distribution is given by
+\begin{equation}
+  f_{ME}(q) = \frac{e^{\kappa_A\vartheta^A(q)}}{\cal Z}
+\end{equation}
+where we have defined the partition function
+\begin{equation}
+  {\cal Z} = \langle e^{\kappa_A\vartheta^A} \rangle \, .
+  \label{eqn:partfunc_constraints}
+\end{equation}
+The resulting entropy is
+\begin{equation}
+  S[f_{ME}] = \ln{\cal Z} - \kappa_A\bar{\vartheta}^A
+  \label{eqn:maxent_constraints}
+\end{equation}
+with the lagrange multipliers $\kappa_A$ chosen such that ${\cal Z}^{-1}\int e^{\kappa_A\mathcal{O}^A} \vartheta^A = \bar{\vartheta}^A$ for each $A$.
+%For the generalized force case the entropy is
+% \begin{eqnarray}
+%  && S[f_f\vert f_i ] = \avrg{e^{-s_{f\vert i} } [ s_{f\vert i} + \kappa_A \vartheta^A -\ln {\cal Z}] }_i -1 \, , \nonumber
+%\end{eqnarray}
+%which DOES - DOES NOT? give the required $s_{f\vert i}  (q)$, eq.~\ref{eq:sfi}. 
+This is similar to the Jaynesian viewpoint of statistical mechanics~\cite{Jaynes:1957zz,Jaynes:1957zza}, where the probability density (and entropy) of a system in statistical equilibrium are determined by maximizing the Shannon entropy~\eqref{eqn:shannon_entropy} subject to the physical constraints on the system.
+These constraints often come in the form of values for a collection of conserved charges for the system in question.
+%{\bf Of course, if we don't get all the constraints correct, the answer for the entropy is wrong}
+However, our viewpoint is slightly different as we are placing constraints based on measurements rather than physical considerations, therefore the importance of the observer making the measurements is explicit in our approach.
+
+ A familiar example occurs with just one operator, the total Hamiltonian energy of the system, $\vartheta = H(q)$.
+The standard textbook result for the entropy gives the thermodynamic relation $S=\beta \avrg{H(q)} - \beta F$, where $F= -T \ln Z = -T \ln\mathrm{Tr}e^{-\beta H}$ is the free energy and $\beta=T^{-1} $ is the inverse temperature, with the corresponding probability of obtaining a state given by the canonical ensemble $P_{can} = Z^{-1}e^{-\beta H}$.
+The inclusion of additional conserved charges and the associated Lagrange multipliers similarly leads to the grand canonical ensemble.
+More generally, in non-equilibrium thermodynamics spatial variations in locally conserved charges (such as the energy density) drive flows towards equilibrium.
+The charge operators therefore depend upon positions in the volume and are supplemented by additional operators describing the fluxes of these charges.
+In a relativistic theory, it is convenient to combine the charge and flux operators into 4-currents.
+%\color{green} The terminology for $\bar{\vartheta}^A$ is generalized thermodynamic fluxes and for $\kappa_A$  generalized thermodynamic forces 
+%(Hamiltonian perturbation $-\kappa_A \vartheta^A$) 
+%that drive the system out of its initial equilibrium, associated with the distribution $p_i (q)$ into a new equilibrium with $\bar{\vartheta}^A$ as mean, $p_f (q)$. \color{black}
+
+In the standard thermodynamics of canonical and grand canonical ensembles the mean of global variables such as energy and conserved charges are taken to be determined exactly.
+However, it is more realistic that the mean is an estimate with an error matrix associated with it.
+This error matrix is itself an estimate of $C_{op,\vartheta \vartheta}$; \ie $\int f_f \vartheta^A = \bar{\vartheta}^A + [C_{\vartheta \vartheta}^{\half}]^{AB}\eta_B + \dots$, with $\eta_B$ a Gaussian random deviate ($\avrg{\eta_A \eta_B} =\delta_{AB}$). 
+Since the "noise" variance would itself only be an estimate, we could go to quartic order in $\vartheta$ correlators for the error in it, and so on. 
+A nice aspect of closing off at quadratic order is that the exponential asymmetry associated with $\kappa_A \vartheta^A$ is regulated, and the required Gaussian integrals can be performed analytically.
+There is considerable interpretational elegance to, in effect, complete the square of the collective operator driving terms by allowing for the conjugate variable $G_{\vartheta \vartheta,AB}$ to the collective coordinate correlation function $C_{op,\vartheta \vartheta}^{AB}= \delta \vartheta^A \delta  \vartheta^B$ in addition to the $\kappa_A$ conjugate to $\bar{\vartheta}^A$ -- from which $C_{\vartheta \vartheta}^{AB}=\avrg{C_{op,\vartheta \vartheta}^{AB}}$ and other moments can be obtained by functional derivatives. 
+
+In this chapter we are interested in the special case of a set of collective operators $\vartheta^A$ with constrained means $\bar{\vartheta}^A$ and covariance matrix $C^{AB} = \langle \vartheta^A\vartheta^B \rangle$.
+%Furthermore, we will take our collective operators to be a collection of fields (defined at each lattice site) which are statistically homogeneous.
+Denoting the lagrange multipliers conjugate to $\bar{\vartheta}^A$ by $\lambda_A$ and those conjugate to $C^{AB}$ by $G_{AB}$, we find that the MaxEnt distribution has the form $f_{ME} \propto e^{-\frac{1}{2}G_{AB}\vartheta^A\vartheta^B + \lambda_A\vartheta^A}$.
+We can easily solve to find $G_{AB} = [C^{-1}]^{AB}$ and $\lambda_A = G_{AB}\bar{\vartheta}^B = C^{-1}_{AB}\bar{\vartheta}^B$.
+The resulting maximum entropy is given by the Gaussian Shannon entropy
+\begin{equation}
+  \frac{S_{G}}{N_{\vartheta}} = \frac{1}{2N_{\vartheta}}\ln\mathrm{det}C + \frac{1}{2}\ln 2\pi + \frac{1}{2} = \frac{1}{2N_{\vartheta}}\sum_{\bf k} \ln P({\bf k}) + \frac{1}{2}\ln 2\pi + \frac{1}{2}
+\end{equation}
+where $P({\bf k})$ are the eigenvalues of the covariance matrix labelled by ${\bf k}$ (our motivation for this notation will be clear shortly).
+Furthermore, we take our collective operators $\vartheta^A$ to be a collection of statistically homogeneous fields (which we denote $\varphi^S_i$), with the index $S$ indicating the species and $i$ denoting the lattice site.
+For this case, the index $A$ on the $\vartheta$ collective variables includes information about the field species and the lattice site $A=(S,i)$,
+and we have $N_{\vartheta} = N_{fld}N_{lat}$ with $N_{fld}$ the number of collective field species and $N_{lat}$ the number of lattice sites.
+
+When we have a single (statistically homogeneous) collective field $\varphi$, the wavenumbers ${\bf k}$ label the eigenmodes of the covariance matrix $C_{\varphi\varphi}$.
+The corresponding eigenvectors are given by the power spectrum $P_{\varphi\varphi}({\bf k})$ of the the field $\varphi$, obtained via Fourier transformation (with unitary normalization) of the covariance matrix in the relative spatial separation between two points.
+This is closely related to the Wigner function $W({\bf X},{\bf k})$ via
+\begin{equation}
+  W_{\varphi\varphi}({\bf X},{\bf k}) \propto \int d^3r e^{i{\bf k}\cdot{\bf r}} C_{\varphi\varphi}(X+r/2,X-r/2) \, .
+\end{equation}
+\begin{equation}
+  P_{\varphi\varphi}({\bf k}) = \frac{\int d^3X W({\bf X},{\bf k})}{\int d^3X}
+\end{equation}
+where $W$ is independent of ${\bf X}$ for a statistically homogeneous field.
+In this case, the Gaussian Shannon entropy becomes
+\begin{equation}
+  \frac{S_{G}}{N_{lat}} = \frac{1}{N_{lat}}\sum_{\bf k}\ln P_{\varphi\varphi}({\bf k}) + \frac{1}{2}\ln 2\pi + \frac{1}{2} \, .
+  \label{eqn:gaussian_entropy_1field}
+\end{equation}
+If the field is also isotropic, then $P_{\varphi\varphi}$ is a function of the wavenumber magnitude $|{\bf k}|$ only.
+If we have $N_{fld}$ species $\varphi^S$, $S=1,...,N_{fld}$, then the Fourier transform can be used to block diagonalize the covariance matrix into $N_{fld}$x$N_{fld}$ blocks labelled by ${\bf k}$, with components given by the auto- and cross-power spectra for that wavenumber.
+The power spectra in~\eqref{eqn:gaussian_entropy_1field} is then replaced by the determinants of these full cross-power matrices.
+
+Given the complexities of the nonlinear regime, it is not clear there will be any collective variables with a relatively simple distribution function. 
+The hope is to find nearly Gaussian random fields 
+$\varphi^S$ %$\vartheta^A$ 
+whose distributions can be characterized by their mean 
+$\bar{\varphi}^A$ %$\bar{\vartheta}^A$ 
+and covariance $C_{\varphi\varphi'}^{ij}$. %$C_{\vartheta \vartheta }^{AB}$. 
+In the linear perturbation regime, all fluctuation variable combinations are related to a set of Gaussian random deviates describing normal modes of the fluctuations. 
+These of course include the fundamental scalar fields $\phi$ and their momenta $\Pi$. 
+We do explore a maximum entropy Gaussian distribution function based upon our measurements of the full correlation function of these primitive field variables, but even at the visual level in simulations it is clear that these are not in fact nearly Gaussian in the nonlinear regime. 
+
+A fundamental collective variable combination of the underlying fields is the phonon associated with total comoving energy density fluctuations, a gauge and time hypersurface invariant quantity that in fact fully characterizes the inflaton. 
+One cannot tell at the linear level whether it is the energy density or its logarithm which best characterizes the inflaton.
+However in~\cite{Salopek:1990jq,Salopek:1990re} it was shown that in the long wavelength limit of nonlinear stochastic inflation, $\ln a = {1\over 6} \Trace \ln g $ on uniform Hubble surfaces (essentially uniform comoving energy density surfaces) is a nonlinear generalization of any one of the gauge invariant variables that characterize curvature and are constant outside the horizon for single-field inflation. 
+This has been much used subsequently~\cite{Sasaki:1995aw}.
+One of the gauge invariant combinations is the relative comoving energy density fluctuation, 
+which suggests that the log of the comoving energy density $\ln \rho_{com}$ might be of interest. 
+By direct measurements in our simulations, we find that the energy density requires higher point correlations to characterize it, but the logarithm is found to be more nearly Gaussian. 
+%Why the logarithm? Through conservation, we expect that Gaussian distributed velocities will result in log-normal distributed densities. We find the case is strong for both. 
+We refer to the quanta associated with the collective variable  $\ln \rho_{com}$ as (energy) phonons. 
+Obviously in linear theory these are equivalent to the ordinary idea of phonons. 
+%Apart from the relation of the log to the velocities, 
+A nice aspect of the log is that  the difference $\ln \rho / \rho_s$ is relatively insensitive to any smoothed large scale structure $\rho_s$. This is also the reason $\ln a/a_s$ is more relevant that $a$ directly. 
+
+We find below that our basic conclusions about entropy generation rate are robust to variation in the specific choice of collective field variables.
+%specific form of the entropy. 
+We even find the Gaussian entropy associated with the primitive field variables work.  
+However, it is better to use a Gaussian entropy motived by our simulation measurements, involving the correlation function of 
+%$\delta \vartheta 
+$\varphi = \ln \rho /\rho_s$, where the reference $\rho_s$ could have long wavelength structure in it --- although in practice we use the density averaged over the simulation box of volume $V$, $ \bar{\rho}=E/V $ for $\rho_s$, where $E$ is the total energy in the box. 
+
+%The Fourier transform of the correlation function $ C_{\vartheta \vartheta}(X,\xi )=\avrg{\delta \vartheta (X+\xi/2) \delta \vartheta (X-\xi/2) }$ in the relative spatial separation $\xi$ between the two points  yields the associated Wigner distribution, and the power spectrum of  $\vartheta$, $P_{\vartheta \vartheta}(k) \equiv \int d^3X \tilde{C}_{\vartheta \vartheta}(X,k ) /\int d^3X$. 
+%For statistically homogeneous fields,  $\tilde{C}_{\vartheta \vartheta}(X,k )$ is $X$ independent, but it may require many simulation box realizations to actually get this. Thus, the entropy per $\vartheta $ degree of freedom is 
+%\begin{equation}
+% S_f / N_\vartheta = {1 \over 2N_\vartheta} \sum_{{\bf k}} \ln P_{\vartheta \vartheta} (k)  +\half  + \half \ln 2\pi   .
+% \end{equation}
+%The number of degrees of freedom of the field is the number of lattice sites for a discretized field, but we may also choose to truncate the sum $N_\vartheta =\sum_{{\bf k}}$ to restricted classes of $k$-modes of $\vartheta (x)$. The sum is really the $Vd^3 k/(2\pi)^3 $ we are used to from box-normalized wave functions. In the above expression, the $\prod_{\bf k} \sqrt{2\pi P(k)}$ is the ensemble-averaged phase space volume and the remaining $NN_\vartheta /2$ is 
+% associated with the squared-fluctuation average. Of more relevance are entropy differences, $\Delta S =  \half \sum_{{\bf k}}\ln P_{\vartheta \vartheta} (k) /P_{\vartheta \vartheta ,i} (k) $ relative to a reference power spectrum $P_{\vartheta \vartheta,i} (k)$. 
+
+%For the statistically homogeneous case,  the wavenumbers ${\bf k}$ label the eigenmodes of ${C}_{\vartheta \vartheta}$. For the statistically isotropic case it is a function only of the magnitude, $\vert {\bf k} \vert$. A coarser-grained entropy arises if we measure less information about ${C}_{\vartheta \vartheta}$. An important example occurs if we 
+%break ${C}_{\vartheta \vartheta}$ into eigen-bands, ${C}_{\vartheta \vartheta}= \sum_{b \in B}{C}_{\vartheta \vartheta,b}$, where the different  ${C}_{\vartheta \vartheta,b}$ are projections of $C_{\vartheta \vartheta}$, hence they commute. The {\it rms} $\vartheta$-fluctuations in the band are
+%\begin{equation}
+%  \sigma_{\vartheta \vartheta ,b}^2 =\Trace {C}_{\vartheta \vartheta,b} = \sum_{{\bf k} \in b}\ln P_{\vartheta \vartheta} (k). 
+%\end{equation}
+%If only they are measured, the coarsened entropy is higher than the finer grained one associated with full measurement of ${C}_{\vartheta \vartheta}$:
+%\begin{equation}
+%  S_{f} = \half \sum_{b \in B} \ln \Trace C_{\vartheta \vartheta ,b} + {\rm constant} \ge  \half  \ln \sum_{b \in B}\Trace C_{\vartheta \vartheta ,b} + {\rm constant} .
+%\end{equation}
+%We find that the greatly coarsened entropy associated with just one band is effective for identifying the time when entropy generation occurs, and it depends only upon the total {\it rms} fluctuation level of $\vartheta$. {\bf This measurement isn't actually in this chapter}
+
+%{\bf End of the organization I'm keeping}
+
+%\section{Non-equilibrium Entropies from Constrained Collective Coordinates and Their Conjugate Forces}
+%\label{sec:maxent}
+%For a classical random field with $N$ components $q$ distributed according to a  probability density functional (pdf) $f_f[q]$, the nonequilibrium entropy we adopt is a version of  the Shannon information 
+%\begin{eqnarray}
+%  && S[f_f\vert f_i ] = \int d^Nq [-f_f[q]\ln f[q]/f_i (q) + f_f(q) -f_i(q) ] \, .\nonumber
+%\end{eqnarray}
+%We include a second reference pdf, $f_i(q)$, so the explicit measure dependence of $f_f$ drops out (being shared with $f_i$) \cite{mackay}. With $f_f$ and $f_i$ being equally normalized (e.g., to unity), $S[f_f \vert f_i ]$ becomes (the negative of)  the Kullback-Leibler divergence of $f_f$ from $f_i$ - except that variations of the variables that $f_f$ depends upon arise from both terms. In many cases $f_i$ may be uniform. In full field theory, $N \rightarrow \infty$ and $d^Nq$ becomes a functional integration measure.  The quantum generalization is the von Neumann entropy, $-\mathrm{Tr}(f_{op}[q]\ln f_{op}) $, involving a trace of  the full density matrix  $f_{op}$.  
+
+%Knowing everything about the distribution of the parameters completely defines the theory, whether classical or quantum, but this is unrealistic. Reduced information may come from measurements of probability distributions $P_f(\bar{\vartheta}) = \avrg{ \delta ( \vartheta(q) - \bar{\vartheta} ) }$ of a set of operators $\vartheta^A (q)$. Even more realistically, the measurements will  just be of low order ensemble-averaged correlations, in particular their  means $\bar{\vartheta}^A \equiv \avrg{\vartheta^A}_i$ and variances, 
+%\begin{eqnarray}
+%  &&
+%  C_{\vartheta \vartheta}^{AB} \equiv \avrg{C_{op,\vartheta \vartheta}^{AB}}_i \\
+%&&    \delta \vartheta^A (q) \equiv  \vartheta^A - \bar{\vartheta}^A, \quad C_{op,\vartheta \vartheta}^{AB}(q)  \equiv \delta \vartheta^A \delta \vartheta^A . \nonumber
+%\end{eqnarray}
+%These averages are defined {\it wrt} the initial ensemble being probed, namely that defined by $f_i (q)$, rather than the final one defined by $f_f (q)$. 
+
+%All connected N-point correlation functions of the reduced set of operators are obtained from the generating (partition) function $\ln {\cal Z} [\kappa_A] \equiv  \ln \avrg{\exp \kappa_A \vartheta^A (q)}$ by differentiating N times {\it wrt} the driving forces $\kappa_A$. (The summation convention of equal lower and upper indices indicating a sum is used throughout.) In terms of the Fourier transform of the reduced distribution, $\tilde{P}_\vartheta [k] = \int e^{-ik_A \bar{\vartheta}^A} d^{N_\vartheta} \bar{\vartheta} $ we have 
+%${\cal Z} [\kappa_A]  \equiv  \tilde P_\vartheta [i\kappa]$.   
+%The relative information content and Shannon entropy for this case are  
+%\begin{eqnarray}
+%  &&
+%  s_{f\vert i}  (q)    \equiv -\ln f_f/f_i = - \kappa_A \vartheta^A + \ln {\cal Z}, \label{eq:sfi} \\
+%  && 
+%   S[f\vert f_i ] = -\kappa_A \avrg{\vartheta^A}_f [\kappa ]+\ln {\cal Z} [\kappa ]. 
+%  \end{eqnarray}
+
+% A familiar example occurs with just one operator, the total Hamiltonian energy of the system, $\vartheta = H(q)$, with entropy given by  the thermodynamic relation $S=\beta \avrg{H(q)} - \beta F$, where $F= -T \ln {\cal Z}$ is the free energy and $\beta=T^{-1} $ is inverse temperature. More generally, in non-equilibrium thermodynamics in which spatial variations drive flows towards equilibrium, the operators depend upon positions in the volume there are many operators as well as the , including energy fluxes and number 4-currents. The terminology for  $\bar{\vartheta}^A$ is generalized thermodynamic fluxes and for $\kappa_A$  generalized thermodynamic forces (Hamiltonian perturbation $-\kappa_A \vartheta^A$) that drive the system out of its initial equilibrium, associated with the distribution $p_i (q)$ into a new equilibrium with $\bar{\vartheta}^A$ as mean, $p_f (q)$. 
+
+%The approach taken here defines  a distribution $f_f$ which is equivalent to that found by maximizing the relative entropy subject to the constraint that $\int f_f \vartheta^A = \bar{\vartheta}^A$ and $\in f_f = 1$ with $\kappa_A$ and ${\cal F}$ the associated Lagrange multipiiers; \ie for this generalized force case the entropy is
+% \begin{eqnarray}
+%  && S[f_f\vert f_i ] = \avrg{e^{-s_{f\vert i} } [ s_{f\vert i} + \kappa_A \vartheta^A -\ln {\cal Z}] }_i -1 \, , \nonumber
+%\end{eqnarray}
+%which DOES - DOES NOT? give the required $s_{f\vert i}  (q)$, eq.~\ref{eq:sfi}. 
+
+%In the theory of preheating, the primitive parameters are field operators $\psi_{aR}$ and their conjugate momenta $\Pi_{\psi,aR}$ for each lattice position $R$, and field type $a$. If we are following the small scale gravitational interactions as well, we can use the scalar perturbation gravitational potentials, or, equivalently in the synchronous gauge, Eulerian fluctuations $x(R)$ from the lattice positions to encode the metric variations, through the metric derived from the beins $E^i_a \partial x^i /\partial R^a  \approx \delta^i_a + \epsilon^i_a$, where $x(R)=R+\xi (R)$ and $\epsilon = \half \ln EE^\dagger$ is the strain tensor. For general scalar perturbations, we only need two additional metric variables, and for scalar fields only one. MAYBE
+
+%One can interpret this formulation in a familiar Bayesian measurement sense, $f_f={\cal L}f_i /{\cal Z}$, with $f_i$ the prior probability, $f_f$ the posterior probability of the parameters after the $\vartheta^A$ have been observed, 
+%\begin{eqnarray}
+%  && {\cal L} = \frac{\exp[-\half (\vartheta -\bar{\vartheta})^\dagger G_{\vartheta \vartheta }  (\vartheta -\bar{\vartheta})]}{( 2\pi )^{ N_{\vartheta}/2} {\rm det} G_{\vartheta \vartheta }^{-\half }  }
+%\end{eqnarray}
+%the likelihood associated with the measurement. The normalization ${\cal Z}$ is called the evidence in Bayesian theory. The relative information content and entropy,     
+% \begin{eqnarray}
+%  && s_{f\vert i} (q) = -\ln {\cal L} + \ln {\cal Z}   \nonumber\\
+%  && = \half \Trace C_{op,\vartheta \vartheta}(q) G_{\vartheta \vartheta } +\ln {\cal V}_G +\ln {\cal Z},  \\
+%   && S_{f\vert i}  = \half \Trace C_{\vartheta \vartheta } G_{\vartheta \vartheta } - \half \Trace \ln G_{\vartheta \vartheta }  \nonumber \\
+%   && \quad +\half N_{\vartheta} \ln (2\pi ) +\ln {\cal Z} , \nonumber \\
+%  &&  \ln {\cal V}_G \equiv - \half \Trace \ln G_{\vartheta \vartheta }  +\half N_{\vartheta} \ln (2\pi )  ,  \nonumber
+%\end{eqnarray}
+%are those for Gaussian random fields in $\vartheta$ except for the log-evidence term.  The Gaussian volume is ${\cal V}_G $. If the operators are linear and quadratic in the primitive parameters, $\vartheta^A =q^A$ and 
+%$C_{op,\vartheta \vartheta}(q) = \delta q^\alpha \delta q^\beta$, then ${\cal Z}=1$ CHECK THIS WORKS ONLY FOR THIS CASE and entropy extremization {\it wrt} $\kappa $ and $G_{\vartheta \vartheta } $  yield $\kappa = G_{\vartheta \vartheta } \bar{\vartheta}$ and $G_{\vartheta \vartheta }= C_{\vartheta \vartheta }^{-1}$  (using for linear variations $ \delta S{f\vert i} =half (C _{\vartheta \vartheta }^{AB} -G_{inv,\vartheta \vartheta }^{AB} ) \delta G_{\vartheta \vartheta ,AB}$, where $G_{inv,\vartheta \vartheta ,AB}=[G_{\vartheta \vartheta }^{-1}]^{AB} $ is the inverse). 
+
+%We find below that our basic conclusions about entropy generation rate are robust to variation in the specific form of the entropy. We even find the Gaussian entropy associated with the primitive field variables work.  But it is better to use a Gaussian entropy motived by our simulation measurements, involving the correlation function of $\delta \vartheta = - \ln \rho /\rho_s$, where the reference $\rho_s$ could have long wavelength structure in it --- although in practice we use the density averaged over the simulation box of volume $V$, $ \bar{\rho}=E/V $ for $\rho_s$, where $E$ is the total energy in the box. The Fourier transform of the correlation function $ C_{\vartheta \vartheta}(X,\xi )=\avrg{\delta \vartheta (X+\xi/2) \delta \vartheta (X-\xi/2) }$ in the relative spatial separation $\xi$ between the two points  yields the associated Wigner distribution, and the power spectrum of  $\vartheta$, $P_{\vartheta \vartheta}(k) \equiv \int d^3X \tilde{C}_{\vartheta \vartheta}(X,k ) /\int d^3X$. For statistically homogeneous fields,  $\tilde{C}_{\vartheta \vartheta}(X,k )$ is $X$ independent, but it may require many simulation box realizations to actually get this. Thus, the entropy per $\vartheta $ degree of freedom is 
+%\begin{equation}
+% S_f / N_\vartheta = {1 \over 2N_\vartheta} \sum_{{\bf k}} \ln P_{\vartheta \vartheta} (k)  +\half  + \half \ln 2\pi   .
+% \end{equation}
+%The number of degrees of freedom of the field is the number of lattice sites for a discretized field, but we may also choose to truncate the sum $N_\vartheta =\sum_{{\bf k}}$ to restricted classes of $k$-modes of $\vartheta (x)$. The sum is really the $Vd^3 k/(2\pi)^3 $ we are used to from box-normalized wave functions. In the above expression, the $\prod_{\bf k} \sqrt{2\pi P(k)}$ is the ensemble-averaged phase space volume and the remaining $NN_\vartheta /2$ is 
+% associated with the squared-fluctuation average. Of more relevance are entropy differences, $\Delta S =  \half \sum_{{\bf k}}\ln P_{\vartheta \vartheta} (k) /P_{\vartheta \vartheta ,i} (k) $ relative to a reference power spectrum $P_{\vartheta \vartheta,i} (k)$. 
+
+%For the statistically homogeneous case,  the wavenumbers ${\bf k}$ label the eigenmodes of ${C}_{\vartheta \vartheta}$. For the statistically isotropic case it is a function only of the magnitude, $\vert {\bf k} \vert$. A coarser-grained entropy arises if we measure less information about ${C}_{\vartheta \vartheta}$. An important example occurs if we 
+%break ${C}_{\vartheta \vartheta}$ into eigen-bands, ${C}_{\vartheta \vartheta}= \sum_{b \in B}{C}_{\vartheta \vartheta,b}$, where the different  ${C}_{\vartheta \vartheta,b}$ are projections of $C_{\vartheta \vartheta}$, hence they commute. The {\it rms} $\vartheta$-fluctuations in the band are
+%\begin{equation}
+%  \sigma_{\vartheta \vartheta ,b}^2 =\Trace {C}_{\vartheta \vartheta,b} = \sum_{{\bf k} \in b}\ln P_{\vartheta \vartheta} (k). 
+%\end{equation}
+%If only they are measured, the coarsened entropy is higher than the finer grained one associated with full measurement of ${C}_{\vartheta \vartheta}$:
+%\begin{equation}
+%  S_{f} = \half \sum_{b \in B} \ln \Trace C_{\vartheta \vartheta ,b} + {\rm constant} \ge  \half  \ln \sum_{b \in B}\Trace C_{\vartheta \vartheta ,b} + {\rm constant} .
+%\end{equation}
+%We find that the greatly coarsened entropy associated with just one band is effective for identifying the time when entropy generation occurs, and it depends only upon the total {\it rms} fluctuation level of $\vartheta$. {\bf This measurement isn't actually in this chapter}
+
+\section{Models and Numerical Methods}
+\label{sec:models_numerics}
+We consider two models for the preheating phase following inflation, both of which exhibit broad band parametric resonance during the initial linear stages.
+First is a simple two-field model with potential
+\begin{equation}
+  V(\phi,\chi) = \frac{m^2}{2}\phi^2 + \frac{g^2}{2}\phi^2\chi^2
+  \label{eqn:2field_model}
+\end{equation}
+where $\phi$ is the inflaton and $\chi$ is a field into which the inflaton will decay that we denote as the preheat field.
+We assume that the inflationary phase was driven by a large condensate value for $\phi$, with the inflationary phase ending at $\bar{\phi}_{end} \sim \sqrt{2}M_P$.
+After this $\phi$ oscillates as a damped oscillator $\bar{\phi} \sim \cos(mt)/a^{3/2}$.
+We start our simulations at the point when $\epsilon = -\dot{H}/H^2 = 1$, as determined by an evolution of the homogeneous background equations.
+The initial mean value of $\chi$ is 0.
+Both the linear and nonlinear dynamics of this model with the initial conditions given above have been well-studied in the literature (see e.g.~\cite{Kofman:1997yn,Felder:2006cc,Frolov:2008hy,Prokopec:1996rr}).
+During the homogeneous oscillations of $\phi$, fluctuations in $\chi$ approximately satisfy the Mathieu equation resulting in the parametric amplification of a band of wavenumbers.
+Once the $\chi$ fluctuations become sufficiently large, they begin to excite fluctuations $\delta\phi$ leading to the creation of bubbly standing wave structures in the fields.
+Shortly after this these bubbly structures become strongly nonlinear, leading to a rapid cascade of fluctuation power to smaller scales, phase mixing and randomization of the fields.
+
+Our second model is a single-field preheating model with potential
+\begin{equation}
+  V(\phi) = \frac{\lambda\phi^4}{4} 
+  \label{eqn:1field_model}
+\end{equation}
+with inflation ending at $\bar{\phi}_{end} \sim \sqrt{8}M_P$.
+The fluctuations in the field $\phi$ now experience an instability which is accurately modelled by the Lame equation~\cite{Greene:1997fu}.
+As a result of the conformal nature of this model (at the classical level), this instability occurs at a fixed comoving wavenumber and thus $\phi$ resonantly excites its own fluctuations.
+Once again, nonlinear interactions lead to a cascade of fluctuation power to higher wavenumbers and the emergence of a slowly evolving state which is claimed to be a combination of weak wave turbulence and strong turbulence~\cite{Micha:2002ey,Micha:2004bv,Prokopec:1996rr,Berges:2013lsa,Berges:2010ez}.
+
+Due to the complexities of the scalar field dynamics as they enter the highly nonlinear regime, it is necessary to employ lattice simulations in order to properly study the dynamics.
+The necessary numerical techniques have been well-developed beginning with LATTICEEASY~\cite{Felder:2000hq}, and subsequently using more accurate time-integrations in DEFROST and HLATTICE~\cite{Frolov:2008hy,Huang:2011gf}, 
+pseudospectral spatial discretizations in PSpectRe~\cite{Easther:2010qz} and even a GPU-enabled version PyCOOL~\cite{Sainio:2012mw}.
+We use the lessons from these previous codes to develop a new MPI/OpenMP hybrid lattice code for the simulations in this chapter.
+For the 2-field model~\eqref{eqn:2field_model} we assume a metric of the form $ds^2=-dt^2 + a(t)^2dx^2$ and solve Hamilton's equations for the fields $\phi_i^A=\phi^A(x_i),y_a=a^{3/2}$ and their canonical momenta $\Pi_i^A \equiv a^3\dot{\phi}^A(x_i),\Pi_a \equiv -8N_{lat}\dot{y}_a/3=-4N_{lat}Ha^{3/2}$
+\begin{align}
+  \frac{d\phi^A_i}{dt} &= \frac{\Pi^A_i}{y_a^2}  \\
+  \frac{d\Pi^A_i}{dt} &= -y_a^2\partial_{\phi^A}V + y_a^{2/3}\nabla^2\phi_i^A \\
+  \frac{d y_a}{dt} &= -\frac{3\Pi_a}{8N_{lat}} \\
+  \frac{d\Pi_a}{dt} &= \sum_i \left(\frac{\Pi_i^T\Pi_i}{y_a^3} - 2y_aV - y_a^{-1/3}\frac{\nabla\phi_i^T\cdot\nabla\phi_i}{3}\right) \, .
+\end{align}
+For~\eqref{eqn:1field_model} it is instead convenient to work in conformal time $\tau$ with metric $ds^2= a^2(\tau)\left(-d\tau^2 + dx^2\right)$, $\Pi_i = a^2\partial_\tau\phi_i$, and $y_a=a$, $\Pi_a = -6N_{lat}\partial_\tau y_a = -6N_{lat}a^2H$ with resulting equations of motion
+\begin{align}
+  \frac{d\phi_i^A}{d\tau} &= \frac{\Pi_i^A}{y_a^2} \\
+  \frac{d\Pi_i^A}{d\tau} &= -y_a^4\partial_{\phi^A}V + y_a^2\nabla^2\phi^A_i \\
+  \frac{d y_a}{d\tau} &= -\frac{\Pi_a}{6N_{lat}} \\
+  \frac{d \Pi_a}{d\tau} &= \sum_{i} \left(\frac{\Pi_i^T\Pi_i}{y_a^3} - 4y_a^4V - y_a\nabla\phi_i^T\cdot\nabla\phi_i\right)
+\end{align}
+In the above we have defined the total number of lattice sites $N_{lat}$.
+
+To numerically evolve the system, we employ a sixth-order Yoshida splitting method (c.f.~\cite{Yoshida:1990,Huang:2011gf,Sainio:2012mw}).
+For the spatial discretization we use a finite-difference stencil,
+\begin{equation}
+  \nabla^2 \phi(x_i) = \sum_\alpha 2d_\alpha(\phi_{i+\alpha}-\phi_i) = \sum_\alpha 2d_\alpha\phi_{i+\alpha}
+\end{equation}
+where we used $\sum_{\alpha \neq (0,0,0)} d_\alpha = -d_{(0,0,0)}$.
+Self-consistency requires the following definitions for the other relevant differential operators that will appear below
+\begin{equation}
+  \nabla \phi^A(x_i) \cdot \nabla \phi^B(x_i) = \sum_\alpha d_\alpha\left(\phi^A_{i+\alpha}-\phi^A_i\right)\left(\phi^B_{i+\alpha}-\phi^B_{i}\right) \, .
+\end{equation}
+For notational simplicity, we have defined $\phi_i = \phi(x_i)$ with superscripts in capital Roman letters indicating different field species and $i$ labelling the grid sites.
+The coefficients $d_\alpha$ define the discretization scheme.
+We chose a second-order accurate and fourth-order isotropic stencil which uses the neighbouring lattice sites $\alpha = (\alpha_1,\alpha_2,\alpha_3)$ with $\alpha_i = 0,\pm 1$ and $d_\alpha$ dependent only on $\sum |\alpha_i|$.
+The precise values of the coefficients are
+\begin{equation}
+  dx^2 d_{(1,0,0)} = \frac{7}{15} \qquad
+  dx^2 d_{(1,1,0)} = \frac{1}{10} \qquad
+  dx^2 d_{(1,1,1)} = \frac{1}{30} \qquad
+  dx^2 d_{(0,0,0)} = \frac{-64}{15} \, .
+\end{equation}
+To check for spatial convergence, in addition to varying the overall lattice size $L$ and lattice spacing $dx$,
+we also checked part of the analysis using a pseudospectral approximation for the spatial derivatives.
+
+For reference, the stress-energy tensor for the scalar fields is given by
+\begin{equation}
+  T^{\mu}_{\nu} = \sum_i\partial^\mu\phi_i\partial_\nu\phi_i + \delta^\mu_\nu\left(-\sum_i\frac{\partial^\alpha\phi_i\partial_\alpha\phi_i}{2} - V(\phi) \right) \, .
+\end{equation} 
+The local energy density measured by observers comoving with the expansion is $\rho = -T^{0}_0$ and the local isotropic pressure is $P \equiv T^i_i/3$.
+Throughout $\langle\cdot\rangle$ will denote ensemble averages and $\bar{\cdot}$ spatial averages.
+For a statistically homogeneous field, these two averaging procedures may be interchanged, although it may take many realizations of the dynamics in order to properly sample the longest wavelength modes in the box.
+
+\section{Application to Preheating: the Phonon Energy Density Modes}
+\label{sec:phonons_m2g2}
+\subsection{Entropy in the Phonon Description}
+Now we apply the formalism developed in~\ref{sec:maxent} to determine the production of entropy after inflation in the preheating model~\eqref{eqn:2field_model}.
+Since our restriction to the measurement of two-point correlations results in an entropy that is the same as if the fields were multivariate Gaussians, it is desirable to 
+choose collective variables that are at least approximately Gaussian.
+
+Frolov~\cite{Frolov:2008hy} found that shortly after the onset of strong inhomogeneities in the fields, the one-point probability density of $\rho/\bar{\rho}$ quickly settled down into a nearly log-normal form in a variety of two-field preheating models.
+Motivated by this, we will compute the Gaussian Shannon entropy taking $\lnr$ as the underlying nearly Gaussian field.
+As well, it is desirable to have a second variable describing the instantaneous dynamical evolution.
+Thus, we introduce $\dlnr$ as a variable of interest into the preheating literature.
+Using the equations of motion, we have
+\begin{equation}
+  \frac{\partial{\ln(\rho/\bar{\rho})}}{\partial t} = -3H\left(\frac{P}{\rho}-\frac{\bar{P}}{\bar{\rho}}\right) + \frac{\partial_iT^{i}_0}{\rho}
+  \label{eqn:lnrho_deriv}
+\end{equation}
+where
+\begin{equation}
+  \partial_iT^{i}_0 = \sum_I\frac{\dot{\phi_I}\nabla^2\phi_I}{a^2} + \frac{\nabla\dot{\phi_I}\cdot\nabla\phi_I}{a^2} \, .
+  \label{eqn:current_divergence}
+\end{equation}
+Here we have defined the local energy density $\rho \equiv -T^0_0$ and isotropic pressure $P \equiv T^i_i/3$ measured by observers comoving with the expansion of the spacetime.
+The first term on the right hand side of~\eqref{eqn:lnrho_deriv} describes dilution of the energy density due to the expansion of the background spacetime, while the second arises from the transport of energy (heat currents) as measured by the comoving observers.
+Since we have multiple scalar fields, a full description of the system also includes the difference in $\phi$ and $\chi$ energies and its time-derivative.
+Due to the coupling between the fields in the potential, a priori it is not clear what the simplest choice for the difference would be and we will restrict to consideration of $\lnr$ and $\dlnr$.
+There are two autocorrelations and one crosscorrelation that we can measure from this pair of variables.
+We will look at two different entropies, one assuming we have only measured the autocorrelations (equivalently power spectra) and one assuming we have also measured the cross-correlation (equivalently cross power)
+\begin{align}
+  S_{\ln\rho} &= \frac{4\pi\Delta k}{2}\sum_i^{k_{cut}} k_i^2 \ln(P_{\ln\rho\ln\rho}) \\
+  S_{\ln\rho}^{diag} &= \frac{4\pi\Delta k}{2}\sum_{i}^{k_{cut}} k_i^2 \ln(P_{\ln\rho\ln\rho}P_{\partial_t\ln\rho\partial_t\ln\rho}) \\
+  S^{tot}_{\ln\rho} &= \frac{4\pi\Delta k}{2}\sum_{i}^{k_{cut}} k_i^2 \ln(P_{\ln\rho\ln\rho}P_{\partial_t\ln\rho\partial_t\ln\rho}-|P_{\ln\rho\partial_t\ln\rho}|^2 ) \equiv \frac{4\pi\Delta k}{2}\sum_i^{k_{cut}}k_i^2 \ln\Delta_{\ln\rho}^2(k)
+\end{align}
+where we have defined $P_{\alpha\beta}({\bf k}_n) = \langle \tilde{f}_{\bf k_n}^\alpha \tilde{f}_{\bf -k_n}^\beta\rangle$ with $\tilde{f}_{\bf k_n} = \frac{1}{N_{lat}^{1/2}}\sum_ie^{i{\bf k_n}\cdot{\bf x_i}}$ the discrete Fourier transform of either $\lnr$ or $\dlnr$ with unitary normalization.
+With this convention, the eigenvalues of the covariance matrix are equal to $\langle |\tilde{f}_k|^2\rangle$.
+Here we will mostly be concerned with entropy differences, so we have dropped the constant contribution $N_{lat}\ln 2\pi + N_{lat}$.
+In order to regulate the effect of the poorly resolved modes beyond the Nyquist frequency, we introduce a spatial frequency cutoff $k_{cut} < k_{nyq} = \pi N_{lat}^{1/3} L^{-1}$ with respect to which we define an effective number of degrees $\mathcal{N}_{eff}(k) = 4\pi\Delta k\sum_i^{k_{cut}} k_i^2 \approx 4\pi k_{cut}^3/3$.
+%The entropy per comoving volume is then $s_{com} = S/V_{com} = \frac{\mathcal{N}_{eff}}{4\pi^2}\frac{S}{\mathcal{N}_{eff}}$.
+%{\bf check factors here.  Add a's to get per physical volume}
+We will provide further evidence that these phonon variables are approximately Gaussian in section~\ref{sec:lnrho_statistics_m2}.
+
+Our main result is presented in~\figref{fig:lnrho_entropy_m2g2} where we show the evolution of the entropy, the effective Mach number $|\ln(\rho/\bar{\rho})|^{-1}$ (see below) and an indicator of the production of curvature perturbations $\ln a + \frac{\ln\rho}{3(1+w)}$.  
+This final quantity is constant for epochs when the equation of state $w$ is a constant.
+Therefore, during these epochs we can easily compare the difference in total expansion between different Hubble patches from the end of inflation to a fixed energy density $\rho_{comp}$.
+We've used $\langle\cdot\rangle_t$ to denote a time-average over a few oscillations of the background.
+As well, the rate of entropy production $dS/dt$ (not to scale) is included as a green line with the red band in the background indicating its amplitude.
+We see that there is a short regime of rapid entropy production at $\ln a \sim 2.9$ (or $mt=120$) which lasts for $\delta\ln a \sim 0.1$.
+This is preceded by a stage of linear parametric resonance during which the entropy \emph{decreases} slowly (as $-2\ln a$) and succeeded by a state of highly inhomogeneous nonlinear dynamics where the entropy production is very small.
+\begin{figure}[!ht]
+  \centering
+%  \includegraphics[width=0.9\linewidth]{{{shock_variables_n512_L5_filter2}}}
+  \includegraphics[width=0.75\linewidth]{{{shock_variables}}}
+  \caption[Various illustrations of the shock-in-time.]{Various illustrations of the shock in time. \emph{Top}: Evolution of the entropy for the energy phonons $\ln\rho$ around the onset of strong nonlinearities amongst the fluctuations.  \emph{Middle}:  The effective Mach number $|\ln(\rho/\bar{\rho})|^{-1}$.  \emph{Bottom}: The quantity $\ln a + \ln\rho/3(1+w)$, which is useful for studying the production of adiabatic density perturbations.  In all plots, the light blue line is the raw data, while the solid blue line is a time-averaged version obtained using a Kaiser filter.  In the bottom panel, the time-averaging is done by replacing $w$ with its time-average $\langle w\rangle_t$ since this produces a much smoother result than averaging $\ln a + \ln\rho/3(1+w)$ directly.  In all cases, the time-derivative of the entropy $dS/dt$ (with arbitrary normalization) is shown as the green curve, with the red band indicating the location of the shock-in-time.  To remove the large oscillations in $S_{\ln\rho}$ at early times driven by the free evolution of large $k$ modes, we have chosen $k_{cut} = 94m$.}
+  \label{fig:lnrho_entropy_m2g2}
+\end{figure}
+The somewhat slow decrease before the onset of nonlinearities is due to the damping of the linear fluctuations from the expansion and can be accounted for using the methods of section~\ref{sec:noncanonical_entropy}.
+
+The transition regime therefore connects a highly coherent low entropy state at early times to a much higher entropy incoherent state at late times.
+A similar phenomena occurs at a hydrodynamic shock, which acts as a randomization front as it passes through the medium, transforming an unstable supersonic coherent flow into a subsonic incoherent flow.
+This randomization leads to a jump in the entropy $\Delta S$ as the shock passes, possibly with an additional relaxation phase after the shock has passed in which additional entropy is produced.
+In addition to the entropy, other hyperbolically conserved quantites also undergo rapid changes as the shock passes, with the matching conditions in the limit of an infinitely thin shock known as jump conditions.
+Given these similarities, we will refer to the entropy production event at the onset of strong nonlinearity in the system as the \emph{shock-in-time}.
+In the hydrodynamic case, the production of entropy is mediated by viscous effects and collisionless dynamics, 
+while for preheating the mixing is due to strong field gradients and nonlinearities.
+The Mach number provides a quantitative measure of the unstable nature of the background, with an instability occuring whenever the speed of the coherent bulk flow exceeds the sound speed of the medium, $c_{bulk}^2 > c_{sound}^2$.
+For our shock, it is the unstable nature of the coherent energy density (in the context of the oscillating background fields) that leads to the instability,
+so that we take $|\ln(\rho/\bar{\rho})|^{-1}$ as an analogue to the Mach number.
+When the inhomogeneities are small, we have $|\ln(\rho/\bar{\rho})|^{-1} \approx \langle\delta^2\rangle^{-1} \gg 1$, while in fluctuation dominated case it becomes of order one.
+From the center panel of~\figref{fig:lnrho_entropy_m2g2}, we see that the shock-in-time indeed tracks the transition to inhomogeneity as measured by our analogue Mach number.
+The hydrodnamic shock front is a spacelike hypersurface for any instant in time, so the jump conditions relate the values of various quantities at two points in space on either side of the shock at a fixed moment of time.
+The shock-in-time, on the other hand, occurs at a fixed moment in time, possibly with some modulation in this time as a function of spatial position.
+Therefore, conserved quantities such as $T^{\mu 0}$ experience rapid changes in \emph{time}, leading to jump conditions connecting two moments in time rather than two spatial positions.
+
+Now that we have presented our main result, let's consider the nature of the transition in more detail.
+Initially, $S_{\ln\rho}$ and $S_{\ln\rho}^{tot}$ oscillate in time with the overall evelope of the amplitude decaying as $-2\ln a$.
+This corresponds to linear evolution of field inhomogeneities, so we can approximate $\ln\rho$ and its time derivative to linear order in the fluctuations
+\begin{align}
+  \ln(\rho/\bar{\rho}) &\approx  \frac{1}{\bar{\rho}}\left(\frac{\bar{\Pi}_\phi\delta\Pi_\phi}{a^6} + m^2\bar{\phi}\delta\phi \right) \\
+  \partial_t\ln(\rho/\bar{\rho}) &\approx \frac{3H}{\bar{\rho}}\left(\frac{(w-1)\bar{\Pi}_\phi}{a^6}\delta\Pi_\phi + (1+w)V_\phi(\bar{\phi})\delta\phi \right) + \frac{\bar{\Pi}_\phi\nabla^2\delta\phi}{a^5\bar{\rho}} 
+\end{align}
+where we have set $\bar{\chi}=0=\dot{\bar{\chi}}$ and defined $w \equiv \bar{P}/\bar{\rho}$.
+The homogeneous background $\phi$ oscillates in a quadratic potential, so $\bar{\phi},\dot{\bar{\phi}} \sim a^{-3/2}$ and $\bar{\rho} \sim a^{-3}$.
+As for the fluctuations, for $k \lesssim ma$ the modes behave as a massive scalar with $\delta\phi_k,\delta\dot{\phi}_k \sim a^{-3/2}$.
+Meanwhile, for $k \gtrsim ma$ the modes instead behave as a massless scalar with $\delta\phi_k \sim a^{-1}$ and $\delta\dot{\phi}_k \sim a^{-2}$.
+Outside of the resonant bands, similar considerations hold for the $\delta\chi$ modes with the transition between massive and massless behaviour instead set by $g\langle|\bar{\phi}|\rangle_{t}$ 
+%{\bf check this}
+where $\langle\cdot\rangle_t$ indicates a time-average over a few oscillations of the background $\phi$.
+This behaviour is illustrated in~\figref{fig:fourier_modes_fields_tevolve} and~\figref{fig:fourier_modes_lnr_tevolve}.
+Using these scalings we see that $\widetilde{\delta\ln(\rho/\bar{\rho})}_k \sim a^0 (a^{-1/2})$ and 
+$\partial_t\widetilde{\delta\ln(\rho/\bar{\rho})}_k \sim a^{-2} (a^{-3/2})$ for $k \lesssim ma$ ($k \gtrsim ma$) as seen in~\figref{fig:fourier_modes_lnr_tevolve}.
+In either case $\sqrt{P_{\ln\rho}P_{\partial_t\ln\rho}} \sim a^{-4}$.
+%{\bf Add scalings with $k$ to extract dominant pieces.}
+We will return to the underlying origin of the oscillations in the entropy in section~\ref{sec:noncanonical_entropy}.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.95\linewidth]{{{field_kmodes_tevolve_multipanel}}}
+%  \includegraphics[width=0.32\linewidth]{{{phi_kmodes_tevolve_m2g2}}}
+%  \includegraphics[width=0.32\linewidth]{{{dphi_kmodes_tevolve_m2g2}}}
+%  \includegraphics[width=0.32\linewidth]{{{chi_kmodes_tevolve_m2g2}}}
+  \caption[Evolution of individual spectral amplitudes for the fields $\phi$, $\Pi_\phi$ and $\chi$]{Evolution of individual spectral amplitudes for the fields $\phi$ (\emph{left}), $\Pi_\phi$ (\emph{center}) and $\chi$ (\emph{right}).  We have rescaled the amplitudes to remove the overall damping of the modes with $k \gg ma$.  Initially, only $\chi$ fluctuations with $k \lesssim 10m$ grow from linear parametric resonance.  At $a \sim 10$, second order effects lead to the growth of $\phi$ fluctuations in the same wavenumbers.  Finally, this growth saturates at the shock and there is a rapid growth of modes outside the resonant band.}
+  \label{fig:fourier_modes_fields_tevolve}
+\end{figure}
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=0.95\linewidth]{{{phonon_kmodes_tevolve_multipanel}}}
+%  \includegraphics[width=0.32\linewidth]{{{detlnr_kmodes_tevolve_m2g2}}}
+%  \includegraphics[width=0.32\linewidth]{{{lnr_kmodes_tevolve_m2g2}}} 
+%  \includegraphics[width=0.32\linewidth]{{{dlnr_kmodes_tevolve_m2g2}}}
+  \end{center}
+  \caption[Evolution of individual spectral amplitudes for $\lnr$, $\dlnr$ and $\Delta^2_{\ln\rho}$]{Evolution of individual spectral amplitudes for $\lnr$, $\dlnr$ and $\Delta^2_{\ln\rho}$, rescaled to remove the overal damping of the modes with $k \gg m$.  Fluctuations in these degrees of freedom are oblivious to the initial linear resonance experienced by $\chi$.  However, once the $\phi$ fluctuations begin to grow due to second order effects, fluctuations in the energy density at $k \lesssim 10m$ also begin to grow.  These modes continue to grow until saturating at the shock-in-time leading to the rapid growth of modes outside the resonant band.}
+  \label{fig:fourier_modes_lnr_tevolve}
+\end{figure}
+
+In~\figref{fig:lnrho_determinants_m2g2} we show how the fluctuations distribute themselves in Fourier space.
+During the early stages only $\chi$ fluctuations experience parametric resonance, and since $\bar{\chi},\dot{\bar{\chi}}\approx 0$ no corresponding amplification occurs in the adiabatic energy phonons.
+At $a \sim 10$ or $mt \sim 60$, the $\phi$ fluctuations begin to grow due to second-order effects resulting in the growth of phonon fluctuations at $k \lesssim 10m$.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{lnrho_determinants_m2g2_tslices}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{lnrho_determinants_m2g2_tevolve}}}
+  \caption[Fluctuation determinants associated with various measurements of two-point correlation functions of our phonon modes and evolution of $\ln(\Delta^2_{\ln\rho})$]{\emph{Left:} Fluctuation determinants associated with various measurements of two-point correlation functions of our phonon modes.  In all cases, we have normalized the determinants to the their values at the beginning of the simulation (when $\epsilon=1$).  Shown are curves at $mt=50,75,87.5,100,112.5,125,137.5,150,200,300,400$, with solid blue lines corresponding to measurements of only the diagonal of the covariance matrix $P_{\ln\rho,\ln\rho}P_{\partial_t\ln\rho,\partial_t\ln\rho}$ and red dashed lines corresponding to meausrements of the full covariance matrix $\Delta^2_{\ln\rho} \equiv P_{\ln\rho,\ln\rho}P_{\partial_t\ln\rho\partial_t\ln\rho} - |P_{\ln\rho\partial_t\ln\rho}|^2$.  \emph{Right:} Evolution of $\ln(\Delta^2_{\ln\rho})$.  At early times the distribution undergoes large oscillations.  This is due to the background oscillations of the scalar field condensates and the noncanonical nature of the variables being used here.  We will explore this further in a later section.}
+  \label{fig:lnrho_determinants_m2g2}
+\end{figure}
+Accompanying this growth in fluctuation power of $\lnr$ and $\dlnr$ individually, cross-correlations also develop between the two fields as seen in~\figref{fig:crosscorr_lnr_m2g2}.
+This continues until the shock-in-time, when the growth of fluctuations in the instability band saturates and nonlinearities lead to a rapid cascade of power to higher k-modes.
+This is then followed by a much slower cascade of energy with higher comoving wavenumbers becoming excited very gradually or not at all.
+Since the box itself is expanding, this does not necessarily lead to a development of power at smaller spatial scales as in the normal description of turbulence.  
+%{\bf This sentence should be quantified better than it is, and checked in case its incorrect}
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.6\linewidth]{{{lnrho_crosscorr_m2g2}}}
+  \caption[Modulus of the normalized cross correlation $|C_{\ln\rho\partial_t\ln\rho}| = |P_{\ln\rho\partial_t\ln\rho}|/\sqrt{P_{\ln\rho\ln\rho}P_{\partial_t\ln\rho\partial_t\ln\rho}}$ between $\lnr$ and $\dlnr$]{Modulus of the normalized cross correlation $|C_{\ln\rho\partial_t\ln\rho}| = |P_{\ln\rho\partial_t\ln\rho}|/\sqrt{P_{\ln\rho\ln\rho}P_{\partial_t\ln\rho\partial_t\ln\rho}}$ between $\lnr$ and $\dlnr$.  For $mt \lesssim 60$, it undergoes oscillations induced by the oscillations of $\bar{\phi}$.  Once second-order effects start to build fluctuations in $\delta\phi$ correlations appear at $k \lesssim 10$.  These then spread to larger wavenumbers during the shock-in-time at $mt\sim 120$ before rapidly dissipating in the post-shock state.}
+  \label{fig:crosscorr_lnr_m2g2}
+  \end{center}
+\end{figure}
+
+\subsection{Statistics of the Density Phonons}
+\label{sec:lnrho_statistics_m2}
+We now justify our choice of $\lnr$ and $\dlnr$ as appropriate variables for our MaxEnt description by considering the one-point statistics of these fields both in real space and in Fourier space.
+This is an important validation of our MaxEnt procedure, since only including information about the two-point correlation function results in an inferred multivariate Gaussian probability distribution functional.
+If the true field distribution is highly nongaussian, then this approach will overestimate the entropy. 
+
+Let's first consider the one-point PDF for our two phonon variables in real space.
+For a Gaussian field, these PDFs must also be Gaussian, and thus provide a first (albeit weak) test of the field Gaussianity.
+In fact, given that we constrain our fields by measured two-point statistics, it is entirely reasonable to assume that we should also include measurements of one-point PDF statistics when doing MaxEnt as well.
+%{\bf What's inferred PDF if we have access to one-point PDF as well as power spectrum?  Multivariate whatever the one-point is? (This would be nice, but probably not true)}
+In~\figref{fig:lnrho_dlnrho_pdf} and~\figref{fig:lnrho_pdf_slice} we show the one-point PDFs of $\ln(\rho/\bar{\rho})$ and $\partial_t\ln(\rho/\bar{\rho})$.
+Prior to the shock the fluctuations evolve linearly, with the $k \gtrsim ma$ modes dominating the overall one-point statistics.
+Therefore, RMS fluctuation amplitudes of $\lnr$ and $\dlnr$ decay as $a^{-1/2}$ and $a^{-3/2}$ respectively.
+This results in an overall damping of the width of the one-point PDF by the same factor of $a$.
+% as seen in~\figref{fig:lnrho_dlnrho_pdf}.
+During the shock, the fluctuations interact nonlinearly and modes are excited in a much broader range of wavenumbers, resulting in the creation of large amplitude fluctuations and a rapid growth in the width of the one-point distributions.
+After the shock, these distributions then evolve very slowly for the remaining duration of our simulations.
+
+In~\figref{fig:lnrho_pdf_slice} we examine the shape of the PDFs in more detail by plotting them for several different time-slices.
+For comparison, a Gaussian fit is also included.
+Although we don't include it here, the distribution of $3H\left(\frac{P}{\rho}-\frac{\bar{P}}{\bar{\rho}} \right)$ is very narrow compared to that of $\dlnr$.
+Therefore, $\dlnr \approx \frac{\partial_iT^{i}_{0}}{\rho}$.
+In the rest frame of observers comoving with the background, local changes to $\ln(\rho/\bar{\rho})$ are predominantly driven by the currents transporting energy around the medium rather than dilution from the expansion.
+Throughout the linear evolution prior to the shock, the distribution of $\lnr$ remains very nearly Gaussian, as it is well-approximated by the contribution linear in the field fluctuations and their derivatives.
+Since the (linear) field fluctuations are themselves Gaussian, $\lnr$ inherits this property.
+The same holds true for $\dlnr$ with one additional caveat. 
+When $\bar{\dot{\phi}}^2 \lesssim \langle \delta\dot{\phi}^2\rangle$, the nonlinear terms in $\partial_t\ln(\rho/\bar{\rho})$ become as important as the linear terms resulting in a significantly nongaussian one-point distribution with extended tails.
+From~\eqref{eqn:current_divergence} we see that if the $\bar{\dot{\phi}}\nabla^2\phi$ term dominates, then $\partial_t\ln(\rho/\bar{\rho})$ will be linearly related to the fields and thus nearly Gaussian.
+%{\bf Add Kolmogorov-Smirnov or Anderson-Darling test?}
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{lnrho_pdf_tevolve}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{dlnrho_pdf_tevolve}}}
+  \caption[Time-evolution of the 1-point probability density functions of $\ln(\rho/\bar{\rho})$ and $\partial_t\ln(\rho/\bar{\rho})$]{Time-evolution of the 1-point probability density functions of $\ln(\rho/\bar{\rho})$ (\emph{left}) and $\partial_t\ln(\rho/\bar{\rho})$ (\emph{right}). 
+  Initially, only  linear fluctuations are present due to our initial conditions approximating vacuum fluctuations.  Before the shock these fluctuations evolve linearly and decay in amplitude as $a^{-1/2}$ and $a^{-3/2}$ respectively.  At the shock there is a rapid growth in the typical size of the fluctuations, with the PDFs quickly settling into a nearly constant form shortly after.}
+  \label{fig:lnrho_dlnrho_pdf}
+  \end{center}
+\end{figure}
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{current_lnrho_pdf_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{current_lnrho_pdf_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{current_lnrho_pdf_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{current_lnrho_pdf_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{current_lnrho_pdf_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{current_lnrho_pdf_m2g2_t300.0}}}
+  \end{center}
+  \caption[1-point probability distributions of $\ln(\rho/\bar{\rho})$ and $\partial_t\ln(\rho/\bar{\rho})$ for several times corresponding to the pre-shock state ($mt=110$), during the shock ($mt=120,122.5,125$) and late-time post-shock state ($mt=150,300$)]{1-point probability distributions of $\ln(\rho/\bar{\rho})$ and $\partial_t\ln(\rho/\bar{\rho})$ for several times corresponding to the pre-shock state ($mt=110$), during the shock ($mt=120,122.5,125$) and late-time post-shock state ($mt=150,300$).  The circles are the numerically computed values of the PDF, while the solid lines are fits of Gaussians to the distribution. 
+%{\bf currently max of Gaussian is set to one, should change this}.  
+Before the shock, $\ln\rho$ has a nearly Gaussian distribution, while $\partial_t\ln\rho$ does provided $\bar{\dot{\phi}}$ is not too small.  At $mt=110$, we have $\dot{\bar{\phi}}\approx 0$ so that the nonlinear terms are important leading to the extended tails relative to the Gaussian.} % As well, we have decomposed $\partial_t\ln(\rho/\bar{\rho})$ into its contribution from expansion $-3H(P/\rho - \bar{P}/\bar{\rho})$ and the contribution from heat currents $\partial_iT^{i0}/\bar{\rho}$.  In all cases, the effect of the heat currents dominates over the local equation of state.  As well, post-shock the distributions of $\ln(\rho/\bar{\rho})$ and $\partial_t\ln(\rho/\bar{\rho})$ both become very nearly Gaussian.  All of the PDFs have been normalized to their maximum value.}% Use make_pdf_current_split_m2g2.py
+  \label{fig:lnrho_pdf_slice}
+\end{figure}
+
+We can obtain more information by further decomposing $\partial_iT^{i0}$ into various components.
+One possibility is to simply consider each of the individual pieces separately as in~\figref{fig:current_field_split}. 
+%{\bf Linear versus nonlinear terms?}
+By themselves, each of the individual terms has a highly nongaussian one-point PDF 
+%{\bf is it roughly $e^{-|x|}$?} 
+which is sharply spiked near the origin.
+However, at $mt=120$ and $mt=122.5$ the more Gaussian shape associated with $\bar{\Pi}_\phi\nabla^2\phi/a^5\bar{\rho}$ is present.
+At $mt=110$ this contribution is clearly subdominant (since $\bar{\Pi}_\phi \approx 0$) resulting in the extended tails in the full PDF of $\partial_iT^{i0}$ seen in~\figref{fig:lnrho_pdf_slice}.
+By comparing with the remaining figures in~\figref{fig:lnrho_pdf_slice} we see that although each individual term has an extremely spiky structure with long tails, when summed to obtain $\dlnr$ they produce a distribution that is much closer to Gaussian, albeit with somewhat extended tails.
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{current_fieldcomp_pdf_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{current_fieldcomp_pdf_m2g2_t120.0}}} \\ 
+  \includegraphics[width=0.48\linewidth]{{{current_fieldcomp_pdf_m2g2_t122.5}}} 
+  \includegraphics[width=0.48\linewidth]{{{current_fieldcomp_pdf_m2g2_t125.0}}}  \\
+  \includegraphics[width=0.48\linewidth]{{{current_fieldcomp_pdf_m2g2_t150.0}}} 
+  \includegraphics[width=0.48\linewidth]{{{current_fieldcomp_pdf_m2g2_t300.0}}} 
+  \caption[Split of $\partial_iT^{i0}/\rho$ into components based on individual terms appearing in the expansion]{Split of $\partial_iT^{i0}/\rho$ into components based on individual terms appearing in the expansion.  At all the times illustrated, the distributions are significantly nongaussian, with long tails and a very peak structure.  However, at $mt=120$ and $122.5$ the contribution of the linear (and nearly Gaussian) $\bar{\Pi}_\phi\nabla^2\phi/a^2\bar{\rho}$ term is visible in the PDF of $\dot{\phi}\nabla^2\phi/a^2\rho$.}
+  \label{fig:current_field_split}
+  \end{center}
+\end{figure}
+
+An alternative decomposition is to split $\partial_iT^{i0}/\rho$ into a piece arising from the evolution of the energy defined locally at each lattice site (the kinetic and potential energy) and the piece arising from the energy due to couplings between lattice sites (the gradient energy).
+Denoting these two contributions $\partial_iT_{loc}^{i0}$ and $\partial_iT_{grad}^{i0}$ respectively, we have
+\begin{align}
+  \partial_iT_{loc}^{i0} &= -\frac{\dot{\phi}\nabla^2\phi + \dot{\chi}\nabla^2\chi}{a^2} \\
+  \partial_iT_{grad}^{i0} &= -\frac{\nabla\dot{\phi}\cdot\nabla\phi + \nabla\dot{\chi}\cdot\nabla\chi}{a^2} \, .
+  \label{eqn:loc_grad_current_split}
+\end{align}
+The results of this decomposion are shown in~\figref{fig:current_diffs}, where we also include $\partial_iT^{i0}_\phi = -\nabla(\dot{\phi}\nabla\phi)/a^2$ with an analogous definition for $\chi$.
+Both pre-shock and post-shock, the distributions of the \emph{differences} for either the $\phi/\chi$, or local/gradient split appear quite Gaussian, especially compared to the individual components.
+
+\begin{figure}[!ht]
+  \begin{center}
+    \includegraphics[width=0.95\linewidth]{{{current_components_pdf_m2g2_multipanel}}}
+%  \includegraphics[width=0.45\linewidth]{{{current_components_pdf_m2g2_t110.0}}}
+%  \includegraphics[width=0.45\linewidth]{{{current_components_pdf_m2g2_t120.0}}} \\
+%  \includegraphics[width=0.45\linewidth]{{{current_components_pdf_m2g2_t122.5}}} 
+%  \includegraphics[width=0.45\linewidth]{{{current_components_pdf_m2g2_t125.0}}} \\
+%  \includegraphics[width=0.45\linewidth]{{{current_components_pdf_m2g2_t150.0}}} 
+%  \includegraphics[width=0.45\linewidth]{{{current_components_pdf_m2g2_t300.0}}}
+  \end{center}
+  \caption[1-point PDFs of the currents associated with each field $\phi$,$\chi$ and with the local $\partial_iT^{i0}_{loc}$ and gradient $\partial_iT^{i0}_{grad}$ energies]{1-point PDFs of the currents associated with each field $\phi$,$\chi$ and with the local $\partial_iT^{i0}_{loc}$ and gradient $\partial_iT^{i0}_{grad}$ energies (see~\eqref{eqn:loc_grad_current_split} for a definition).}% Use make_pdf_current_split_m2g2.py
+  \label{fig:current_diffs}
+\end{figure}
+
+Although the simplicity of the one-point distributions given above is rather remarkable, we can provide further evidence that the phonons are approximately Gaussian by looking at Fourier mode statistics.
+Specifically, we consider the one-point distributions of individual bands of Fourier modes for $\lnr$ and $\dlnr$.
+One way to quantify these distributions is to look at a few low order moments for the real and imaginary parts of the modes.
+In~\figref{fig:kurtosis_lnrho_m2g2} we plot the excess kurtosis $\kappa_4$, which we define for a homogeneous and isotropic field $f(x)$ with Fourier transform $\tilde{f}_{\bf k}$ as
+\begin{equation}
+  \kappa_4(k) \equiv \frac{2\langle Re(\tilde{f}_k)^4+Im(\tilde{f}_k)^4\rangle}{\langle Re(\tilde{f}_k)^2+Im(\tilde{f}_k)^2\rangle^2} - 3 \, .
+  \label{eqn:kurtosis_def}
+\end{equation}
+%{\bf Plot skew? and some distributions measuring the angles such as real and imaginary cross-correlations?}
+For a Gaussian distribution $\kappa_4=0$, so this provides a measure of the nongaussianity of the Fourier modes, as well as delivering information about localization in scale.
+At small wavenumbers, we have fewer modes to sample so there is a correspondingly larger uncertainty in the estimate of $\kappa_4$.
+Aside from this scatter at low-k, the excess kurtosis remains small at all wavenumbers throughout the pre-shock evolution, with a small nongaussianity developing at values $k \sim 300m$ near the Nyquist.
+However, at the shock we see the rapid development of large nongaussianities at the scales associated with the linear instabilities due to the onset of strong nonlinearities induced by the buildup of fluctuations from parametric resonance.
+This nongaussianity then spreads to larger wavenumbers as nonlinearities excite the higher k-modes, before dissipating in the post-shock state.
+%\begin{figure}
+%  \caption{Contour plot of kurtosis figures below}
+%\end{figure}
+\begin{figure}[!ht]
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_m2g2_t300.0}}}
+  \end{center}
+  \caption[Excess kurtosis $\kappa_4$ for $\widetilde{\ln\rho}_k$ and $\partial_t\widetilde{\ln\rho}_k$ as a function of comoving wavenumber $k/m$ for several times $mt$ before, during and after the shock]{Excess kurtosis $\kappa_4$ (defined in~\eqref{eqn:kurtosis_def}) for $\widetilde{\ln\rho}_k$ and $\partial_t\widetilde{\ln\rho}_k$ as a function of comoving wavenumber $k/m$ for several times $mt$ before, during and after the shock.  The small sample sizes at small $k$ lead to a large scatter in the measured value.  During the shock, a large postive excess kurtosis develops in the wavenumbers resonantly excited by the oscillating background.  The nongaussianity in the Fourier modes then rapidly propagates to larger wavenumbers as higher k-modes are excited by nonlinear interactions.  Shortly after the shock, the kurtosis returns to 0, which is the expected value for a Gaussian distribution, providing further evidence for the Gaussianity of the phonon modes after the shock.}
+  \label{fig:kurtosis_lnrho_m2g2}
+\end{figure}
+
+We can further probe the nongaussianity of the modes by considering the probability density function for the real and imaginary parts of the Fourier modes.
+These are shown in~\figref{fig:four_dist_lnrho} and~\figref{fig:four_dist_dlnrho}, where we plot the empirical PDF's for $\widetilde{\ln\rho}_k / \sqrt{\langle |\widetilde{\ln\rho}_k|^2 \rangle}$ and $\partial_t\widetilde{\ln\rho}_k / \sqrt{\langle |\partial_t\widetilde{\ln\rho}_k |^2 \rangle}$.
+The PDFs are obtained by first estimating the power spectrum $\langle |\tilde{f}_k|^2 \rangle$ in bins of width $\Delta k \equiv 2\pi L^{-1}$.
+We then normalize each individual Fourier mode by prewhitening $\tilde{f}_k/\sqrt{\langle|\tilde{f}_k|^2\rangle}$ and compute the resulting PDF in bins of width $k_{nyq}/5$.
+We do not include the PDF for modes with wavenumbers near the Nyquist frequency $k_{nyq}=\pi N_{lat}^{1/3}L^{-1}$, since these modes are sensitive to the effects of the lattice cutoff.
+As with the kurtosis we combine the real and imaginary parts of the Fourier modes to create a single PDF.
+From the top left and bottom right panels we see that prior to the shock and after the shock, the distributions are very well approximated by a Gaussian.  Meanwhile, as we move through the shock, a large nongaussianity develops first in the low-k modes then spreading to higher momenta as seen in the $mt=120,122.5$ and $125$ panels respectively.  Finally, shortly after the shock (at $mt=150$) a small residual nongaussianity remains in the third bin, in agreement with~\figref{fig:kurtosis_lnrho_m2g2}.  By $mt=300$ this has dissipated and there is no indication of deviations from Gaussianity in the sub-Nyquist Fourier modes.
+\begin{figure}[!ht]
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{fourdist_lnr_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_lnr_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_lnr_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_lnr_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_lnr_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_lnr_m2g2_t300.0}}}
+  \end{center}
+  \caption[PDFs of Fourier components $\widetilde{\ln\rho}_k/\sqrt{\langle |\widetilde{\ln\rho}_k|^2\rangle}$ in various bins for the same times as those in~\figref{fig:kurtosis_lnrho_m2g2}]{PDFs of Fourier components $\widetilde{\ln\rho}_k/\langle |\widetilde{\ln\rho}_k|^2\rangle$ in various bins for the same times as those in~\figref{fig:kurtosis_lnrho_m2g2}.  We have combined the distributions for the real and imaginary parts of the Fourier modes (which each have variance $\sigma_k^2 = \langle|\widetilde{\ln\rho}_k|^2\rangle/2$).}
+  \label{fig:four_dist_lnrho}
+\end{figure}
+
+\begin{figure}[!ht]
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{fourdist_dlnr_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_dlnr_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_dlnr_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_dlnr_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_dlnr_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_dlnr_m2g2_t300.0}}}
+  \end{center}
+  \caption[PDFs of Fourier components of $\partial_t\widetilde{\ln\rho}_k/\sqrt{\langle |\partial_t\widetilde{\ln\rho}_k|^2\rangle}$ in various bins.]{PDFs of Fourier components of $\partial_t\widetilde{\ln\rho}_k/\sqrt{\langle |\partial_t\widetilde{\ln\rho}_k|^2\rangle}$ in various bins.  The notation and analysis procedure are the same as~\figref{fig:four_dist_lnrho}.}
+  \label{fig:four_dist_dlnrho}
+\end{figure}
+
+
+Through a suite of measurements taken from lattice simulations, we have demonstrated the post-shock statistics of $\lnr$ and $\dlnr$ are remarkably simple (ie. Gaussian) provided we restrict ourselves to one-point distributions of individual Fourier modes.
+Of course, the full-field statistics are probably quite nonGaussian with the full phase space distribution wound into an extremely complicated pattern.
+However, this information is stored in the higher n-point correlators and is inaccessible when making coarse-grained measurements on the system.
+From the point of view of an observer with restricted access to only two-point correlations and one-point PDFs, the fields are thus effectively multivariate Gaussians.
+There still remains a question of the joint statistics that we have not addressed, as well as issues of correlations between Fourier modes with different wavenumbers.  
+However given the inhomogeneous and complex nature of the post-shock state, it is rather remarkable that such a simple description can be found even at the level of one-point statistics.
+%{\bf What about joint PDFs, what's a good statistic to measure (that won't require dumping the whole lattice of prewhitened Fourier modes)?}
+
+\section{Application to Preheating: the Field Description}
+\label{sec:fields_m2g2}
+\subsection{Entropy in the Field Description Constrained by a Measured Two-Point Correlation Function}
+In the previous section, we studied the Gaussian Shannon entropy of a collection of scalar fields during preheating assuming a measured two-point correlation function.
+We argued that the energy density phonons $\lnr$ and $\dlnr$ provide a set of collective excitations whose statistics are well-approximated as Gaussian.
+A more conventional approach would have been to instead treat the fundamental fields $(\phi,\chi)$ and their canonical momenta $(\Pi_\phi,\Pi_\chi)=(a^3\dot{\phi},a^3\dot{\chi})$ as the variables being measured.
+Indeed, since the field variables are a set of canonical coordinates while our energy phonon modes are not, we may expect that the fields (along with any other set of canonical variables) to hold a privileged position with respect to entropy.
+However, we will demonstrate shortly that the field variables (in particular $\phi$) display visible nongaussianity after the shock.
+Therefore, the canonical nature of the field variables is somewhat offset by the nearly Gaussian nature of the phonon variables, making $\lnr$ and $\dlnr$ more natural with respect to our MaxEnt procedure.
+We address these issues in section~\ref{sec:noncanonical_entropy} where we derive the connection between the two choices and show the special role taken by canonical variables.
+For now, we demonstrate that the shock-in-time also occurs in the field variables, although the strength and duration vary in detail compared to the phonon description.
+
+Since we have two field variables and two momenta, there are a total of ten two-point correlation functions we can measure.
+Our inferred entropy will then depend on the exact combination we assume we have measured.
+Once again, define $P_{\alpha\beta}(k) \equiv \langle \tilde{q}^{\alpha}_{\bf k}\tilde{q}^{\beta}_{-\bf k}\rangle$, where $q^{\alpha}$ represents any one of the fields or their canonical momenta and we again take the unitary normalization for the Fourier transform.
+This is simply the Fourier transform of the full covariance matrix for the system, and at the level of two-point correlations gives full information about the system.
+As well, we define the (normalized) cross-correlation as $C_{\alpha\beta} \equiv P_{\alpha\beta}/\sqrt{P_{\alpha\alpha}P_{\beta\beta}}$.
+We can now consider several different entropies, each defined by the components of $P_{\alpha\beta}$ that we assume we can access.
+In particular, we will consider the following five entropies
+\begin{align}
+  S_{n_\phi}  &\equiv \frac{4\pi\Delta k}{2}\sum_kk^2\ln(P_{\phi\phi},P_{\Pi_\phi\Pi_\phi}) \label{eqn:entropy_nphi} \\
+  S_{n_\chi}  &\equiv \frac{4\pi\Delta k}{2}\sum_kk^2\ln(P_{\chi\chi}P_{\Pi_\chi\Pi_\chi}) \label{eqn:entropy_nchi} \\
+  S_{\phi}  &\equiv \frac{4\pi\Delta k}{2}\sum_kk^2\ln\det\langle (\phi, \Pi_\phi)^{\dagger}(\phi, \Pi_\phi)\rangle \equiv \frac{4\pi \Delta k}{2}\sum_kk^2\ln(\Delta_\phi^2) \label{eqn:entropy_phi} \\
+  S_{\chi}  &\equiv \frac{4\pi\Delta k}{2}\sum_kk^2\ln\det\langle (\chi, \Pi_\chi)^{\dagger}(\chi, \Pi_\chi)\rangle \equiv \frac{4\pi \Delta k}{2}\sum_kk^2\ln(\Delta_\chi^2) \label{eqn:entropy_chi} \\
+  S_{tot}   &\equiv \frac{4\pi\Delta k}{2}\sum_k k^2\ln\det\langle (\phi, \Pi_\phi, \chi, \Pi_\chi)^{\dagger}(\phi, \Pi_\phi, \chi, \Pi_\chi)\rangle \equiv \frac{4\pi\Delta k}{2}\sum_kk^2\ln(\Delta_{tot}^2) \label{eqn:entropy_fields_tot}
+\end{align}
+where we have dropped the $N_{fld}\frac{N_{lat}}{2}(\ln 2\pi + 1)$ constant piece for notational simplicity.
+$P_{\phi\phi}P_{\Pi_\phi\Pi_\phi}$ corresponds to measurements of the spectrum of $\phi$ and its canonical momentum $\Pi_\phi$ with no additional cross-correlation information, and similarly for $\chi$.
+$\Delta^2_\phi = P_{\phi\phi}P_{\Pi_\phi\Pi_\phi} - |P_{\phi\Pi_\phi}|^2$ includes information on the correlations between the field and its canonical momentum.
+Finally $\Delta^2_{tot}$ is the result assuming we have measured all 10 two-point correlation functions.
+
+The determinants appearing in~\eqref{eqn:entropy_nphi} and~\eqref{eqn:entropy_nchi} are closely related to the notion of particle number that usually appears in the preheating literature, 
+where the $\phi$ particle occupation number is defined as
+\begin{equation}
+  n^{\phi}_k + \frac{1}{2} = \frac{1}{2\omega^{\phi}_k}\left(\langle|\dot{\phi}_k|^2\rangle + (\omega_k^\phi)^2\langle|\phi_k|^2\rangle\right)
+  \label{eqn:numpart_olddef}
+\end{equation}
+and a similar definition holding for the number of $\chi$ particles.
+The effective frequency is typically defined as $(\omega_k^\phi)^2 = \frac{k^2}{a^2} + \langle V_{\phi\phi} \rangle$.
+More generally, this definition should allow for mixing between the various fields and consider the (time-dependent) eigenvectors of $k^2/a^2 + \langle V_{\phi_i,\phi_j}\rangle$ with the resulting effective frequencies defined by the corresponding eigenvalues. 
+To understand the relationship to our expression, note that this is simply the expression for the occupation number of a simple harmonic oscillator with frequency (or equivalently energy per mode) $\omega_k$.
+Therefore, in the limit that~\eqref{eqn:numpart_olddef} is valid each Fourier mode can be considered a harmonic oscillator and we have $\omega_k^2 = \langle|\dot{\phi}_k|^2\rangle/\langle|\phi_k|^2\rangle$.
+When this holds we have $n_k^{\phi_i} +\frac{1}{2} = a^{-3}\sqrt{P_{\phi_i\phi_i}P_{\Pi_{\phi_i}\Pi_{\phi_i}}}$.
+We see that the factor $a^{-3}$ has appeared to produce the physical (rather than comoving) paricle density.
+Our definition is somewhat more general as no explicit reference is made to the effective frequency $\omega_k$.
+$\Delta_\phi^2$ and $\Delta_\chi^2$ provide further generalization by including the correlations between the fields and their momenta.
+Thus these two quantities can properly account for the squeezing that occurs as the modes are excited by parametric resonance, which~\eqref{eqn:numpart_olddef} is blind to.
+Furthermore, $\Delta_\phi$ and $\Delta_\chi$ are invariant under canonical tranformations between only $(\phi,\Pi_\phi)$ or $(\chi,\Pi_\chi)$ respectively.
+Finally, $\Delta_{tot}^2$ accounts for all correlations in the system and is invariant under arbitrary canonical transformations of the fields.
+
+In~\figref{fig:field_determinants_m2g2} and~\figref{fig:field_determinants_m2g2_tevolve} we show the fluctuation determinants associated with each of these choices of measurements.
+We also show the evolution of the magnitude of each of the cross-correlations in~\figref{fig:crosscorr_fields_m2g2}.
+During the linear evolution, fluctuations in $\chi$ experience broad band parametric resonance, leading to the production of fluctuations in the $\chi$ determinants with no corresponding growth of the $\phi$ determinants.
+There is a significant correlation between $\chi$ and $\Pi_\chi$ during this stage and as a result $P_{\chi\chi}P_{\Pi_\chi\Pi_\chi} > \Delta^2_\chi$ in the resonant band.
+This is expected since no entropy is produced for a quadratic field theory with an external time-dependent mass due to a complete cancellation between the growing amplitudes and cross-spectra. 
+%{\bf Show this explicitly?}
+However, in our simulations there are (small) nonlinearities, numerical noise, and uncertainties associated with estimation of the covariance matrix.
+The combination of these leads to a partial (rather than full) cancellation during the early nearly linear stages of evolution.
+As we move towards the shock, second-order effects lead to the growth of $\phi$ fluctuations, again with significant cross-correlations between the various fields.
+Finally, at the shock nonlinearities lead to the rapid growth of fluctuations in an extended region of momentum space along with additional cross-correlations.
+This is followed by a much slower cascade of fluctuations to larger (comoving) wavenumbers.
+%\color{green} If we run our simulations for longer times than those shown in the plots, the cascade actually appears to stop, so it is unclear if this state should be classified as turbulent in the usual Kolmogorov sense.\color{black}
+%{\bf To do: Get all normalization factors and compare to the thermal result?}
+\begin{figure}[!ht]
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{det_spec_norm_t50.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{det_spec_norm_t75.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{det_spec_norm_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{det_spec_norm_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{det_spec_norm_t125.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{det_spec_norm_t300.0}}}
+  \end{center}
+
+%  \includegraphics[width=0.3\linewidth]{{{det_spec_norm_L10_t50}}}
+%  \includegraphics[width=0.3\linewidth]{{{det_spec_norm_L10_t100}}}
+%  \includegraphics[width=0.3\linewidth]{{{det_spec_norm_L10_t102.5}}}
+%  \\
+%  \includegraphics[width=0.3\linewidth]{{{det_spec_norm_L10_t105}}}
+%  \includegraphics[width=0.3\linewidth]{{{det_spec_norm_L10_t110}}}
+%  \includegraphics[width=0.3\linewidth]{{{det_spec_norm_L10_t300}}}
+  \caption[Determinants associated with measurements of various two-point correlation functions of the fundamental field and their canonical momenta]{Determinants associated with measurements of various two-point correlation functions of the fundamental field and their canonical momenta.  The definitions of the various quantities are given in the main text.  In order to emphasize the changes induced by the evolution of the system, we have normalized each determinant to its value at the start of the simulation.}
+  \label{fig:field_determinants_m2g2}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{detphi_tevolve_m2g2}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{detchi_tevolve_m2g2}}}\\
+  \includegraphics[width=0.48\linewidth]{{{dettot_tevolve_m2g2}}}
+  \end{center}
+  \caption[Contribution to entropy per k-bin $\Delta k k^2\ln\Delta^2/\Delta^2(t=0)$ for $\Delta_\phi^2$, $\Delta_\chi^2$ and $\Delta_{tot}^2$]{Contribution to entropy per k-bin $\Delta k k^2\ln\Delta^2/\Delta^2(t=0)$ for $\Delta_\phi^2$ (\emph{top left}), $\Delta_\chi^2$ (\emph{top right}) and $\Delta_{tot}^2$ (\emph{bottom}).  The oscillations present in the phonon degrees of freedom are absent.  However, once again the rapid production of entropy distributed through a range of wavenumbers is evident at the shock-in-time.}
+  \label{fig:field_determinants_m2g2_tevolve}
+\end{figure}
+
+\begin{figure}[!ht]
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{crosscorrelations_m2g2_t50.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{crosscorrelations_m2g2_t75.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{crosscorrelations_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{crosscorrelations_m2g2_t112.5}}} \\
+  \includegraphics[width=0.48\linewidth]{{{crosscorrelations_m2g2_t125.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{crosscorrelations_m2g2_t300.0}}}
+  \end{center}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_m2g2_t110.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_m2g2_t120.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_m2g2_t122.5}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_m2g2_t125.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_m2g2_t150.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_m2g2_t300.0}}}
+
+%  \includegraphics[width=0.3\linewidth]{{{cross_corr_L10_t25}}}
+%  \includegraphics[width=0.3\linewidth]{{{cross_corr_L10_t62.5}}}
+%  \includegraphics[width=0.3\linewidth]{{{cross_corr_L10_t100}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{cross_corr_L10_t125}}}
+%  \includegraphics[width=0.3\linewidth]{{{cross_corr_L10_t500}}}
+  \caption[Cross-correlations between the various fundamental fields $(\phi,\chi)$ and their corresponding canonical momenta $(\Pi_\phi,\Pi_\chi)$ for several times through the development of the shock]{Cross-correlations between the various fundamental fields $(\phi,\chi)$ and their corresponding canonical momenta $(\Pi_\phi,\Pi_\chi)$ for several times through the development of the shock.  The cross-corelations are defined as $|C_{\alpha\beta}(k)| \equiv |P_{\alpha\beta}(k)|/\sqrt{P_{\alpha\alpha}P_{\beta\beta}}$.}
+  \label{fig:crosscorr_fields_m2g2}
+\end{figure}
+
+Now consider the effect of this dynamical evolution on entropy production as illustrated in~\figref{fig:entropies_fields_m2g2}.
+As with the case for the energy phonons, we cutoff the sum at some wavenumber $k_{cut}$ less than the Nyquist frequency $k_{nyq}=\pi N_{lat}^{1/3}L^{-1}$ and define the effective number of degrees of freedom as $\mathcal{N}_{eff} \equiv 4\pi\Delta k\sum_{k=0}^{k_{cut}} k_i^2 \approx 4\pi k_{cut}^3/3$, where we have sampled our spectra at the discrete frequencies $k_i$ spaced at intervals $\Delta k = 2\pi L^{-1}$.  In all cases we consider, the last approximate equality holds to better than the half-percent level.  This definition of $\mathcal{N}_{eff}$ does not include the number of fields $N_{fld}$ used to compute the entropy.
+This factor is $N_{fld}=2$ for $S_{n_\phi},S_{n_\chi},S_\phi,S_\chi$ and $N_{fld}=4$ for $S_{tot}$.
+Note that $N_{fld}$ is closely related to the effective number of relativistic species $g_*$ familiar from thermal field theory, with $N_{fld}=2g_*$ for the scalar fields considered here.
+As with the energy phonon modes, there is once again a sharp increase of the entropy at $mt\sim 120$, indicating that the shock is robust to our choice of variables.
+A nice feature of this set of variables is that prior to the shock there are no visible oscillations in the entropy and no overall damping as a multiple of $\ln a$.
+However, the entropy does not saturate as quickly post-shock and there is nonnegligible production right up to the end of our simulation.
+This is further illustrated in the right panel of~\figref{fig:entropies_fields_m2g2} where a long tail in the entropy production rate $dS/dt$ is visible well past the shock.
+As we will see shortly, the fields remain nongaussian after the shock, so it is unclear if this increase in entropy could be accounted for by including additional information about the distribution of Fourier modes in our definition of the entropy.
+
+To assess the impact of correlations between the various fields, it is useful to define
+\begin{equation}
+  \Delta S_{\alpha\beta} = \frac{4 \pi\Delta k}{2}\sum_k k_i^2 \ln\left(1-|C_{\alpha\beta}|^2 \right) = \frac{4\pi \Delta k}{2}\sum_k k_i^2\ln\left(1-\frac{|P_{\alpha\beta}|^2}{P_{\alpha\alpha}P_{\beta\beta}}\right)
+  \label{eqn:crossentropy_def}
+\end{equation}
+which measures the change in entropy if we assume that we have measured the diagonal of the full covariance matrix (ie. all of the power spectra) and the one additional cross-spectra $P_{\alpha\beta}$.
+The evolution of these six quantities appear in the right panel of~\figref{fig:entropy_crosscorr_fields_m2g2}, with the corresponding cross-correlations in~\figref{fig:crosscorr_fields_m2g2}.
+Prior to the shock, only correlations between the fields and their own canonical momenta appear.
+This is due to the squeezing nature of the parametric resonance process,
+which leads to the production of standing wave-like patterns during the linear regime rather than an incoherent superposition of travelling waves.
+During the shock, correlations develop between all of the variables.
+After the shock these then damp away except for the correlations between each field and its own canonical momenta.
+%{\bf Useful to include real and imaginary parts of cross-correlation?  Preshock its stored in real part, post shock the remaining correlations are in the imaginary part}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{field_entropies_m2g2_varykcut}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{ent_deriv_fields_m2g2}}}
+%  \includegraphics[width=0.32\linewidth]{{{cross_entropies_L10_n512_knyq}}}
+
+  \caption[Evolution of the entropy per effective degree of freedom for $S_\phi,S_\chi$ and $S_{tot}$]{\emph{Left:} Evolution of the entropy per effective degree of freedom for $S_\phi,S_\chi$ and $S_{tot}$ (see main text for definitions).  The solid, dashed, dot-dashed and dotted lines correspond to the choice of cutoff wavenumber $\frac{k_{cut}}{m} = 320, 240, 160, 80$ respectively. 
+    \emph{Right}: Time derivative for each of the five entropies definied in~\eqref{eqn:entropy_nphi}-~\eqref{eqn:entropy_fields_tot}. The shock-in-time is still a prominent feature in all five quantities, although the subsequent relaxation back to zero entropy production is much slower than for the energy phonon description.}
+  \label{fig:entropies_fields_m2g2}
+\end{figure}
+
+%\begin{figure}[h]
+%  \includegraphics[width=0.3\linewidth]{{{cross_entropies_L10_n512_knyq}}}
+%  \caption{Contribution to the entropy associated with individual measurements of cross-correlations between various phase-space variables.  We define $\Delta S_{\alpha\beta}N^{-1}_{eff} = \frac{3}{2k_{cut}^3}\sum_k^{k_{cut}} dk k^2\ln(1-\frac{P_{\alpha\beta}^2}{P_\alpha P_\beta})$.  Here we used a lattice with $L=10$, $N_{lat}=512$ and the cutoff in $k_{cut} = k_{nyq}$.  This is the change in the entropy induced if we know the spectra for each of the fields and their momenta, as well as the single cross correlation between $\alpha$ and $\beta$.}
+%\end{figure}
+
+%\begin{figure}
+%  \includegraphics[width=0.3\linewidth]{{{ent_diff_L10_kcut63}}}
+%  \includegraphics[width=0.3\linewidth]{{{ent_diff_L10_kcut127}}}
+%  \includegraphics[width=0.3\linewidth]{{{ent_diff_L10_kcut191}}}
+%  \caption{Differences between entropies computed using various combinations of 2-point correlations to infer the underlying PDF.  From left to right, we take the (sharp) cutoff in Fourier space to be $k_{cut} = k_{nyq}/,k_{nyq}/,k_{nyq}/$ respectively.}
+%\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{entdiff_fields_m2g2}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{cross_entropies_fields_m2g2}}}
+  \caption[Evolution of entropy differences illustrating the effect of cross-correlations on the inferred field entropy.]{
+\emph{Left:} Evolution of entropy differences illustrating the importance of various cross-correlations to the total entropy. \emph{Right:} Contribution to the entropy associated with individual measurements of cross-correlations between various phase-space variables as defined in~\eqref{eqn:crossentropy_def}.
+}
+  \label{fig:entropy_crosscorr_fields_m2g2}
+\end{figure}
+
+\subsection{Statistics of the Field Variables}
+Now consider the validity of the assumption of Gaussian statistics for the fundamental scalar fields, and by extension the accuracy of our MaxEnt prescription in determining the actual entropy of the fields.
+Previously, we demonstrated that the one-point Fourier statistics of $\lnr$ and $\dlnr$ are remarkably Gaussian at all times except for a short interval around the shock-in-time.
+We repeat the analysis of section~\ref{sec:lnrho_statistics_m2} using $(\phi,\chi,\Pi_\phi,\Pi_\chi)$ as our collection of fields instead of $(\lnr,\dlnr)$.
+For definitions of the relevant quantities as well as the procedure used to obtain them, please see~\eqref{eqn:kurtosis_def} and the subsequent text.
+
+As with the energy phonons, when the large inhomogeneities and nonlinear interactions between the fluctuations develop at the shock, there is a corresponding broadening of the PDFs in each of the field variables and their momenta as seen in~\figref{fig:field_pdf_tevolve_m2g2}.
+While the system passes through the shock-in-time, the one-point PDFs are multimodal and highly nonGaussian, just as with the $\lnr$ and $\dlnr$.
+However, the post-shock one-point distributions of $\phi$ and $\dot{\phi}$ remain nongaussian even long after the shock as seen in~\figref{fig:field_pdf_slices_m2g2}.
+As well, the $\chi$ one-point distribution acquires extended nonGaussian tails.
+Therefore, already at the level of spatial one-point distributions it is clear that the field variables are less suitable for our MaxEnt prescription than the energy phonons.
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{phi_pdf_tevolve}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{phidot_pdf_tevolve}}} \\
+  \includegraphics[width=0.48\linewidth]{{{chi_pdf_tevolve}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{chidot_pdf_tevolve}}}
+  \caption[Evolution of the one-point probability density functions for each of the fields and their time-derivatives over the course of the simulation]{Evolution of the one-point probability density functions for each of the fields and their time-derivatives over the course of the simulation.  In order to counter the damping due to the expansion, we plot $a^{3/2}\delta\phi$ and $a^{3/2}\delta\dot{\phi}$, with a similar scaling applied to $\chi$.}
+  \label{fig:field_pdf_tevolve_m2g2}
+\end{figure}
+\begin{figure}[!ht]
+  \includegraphics[width=0.48\linewidth]{{{fields_pdf_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fields_pdf_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fields_pdf_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fields_pdf_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fields_pdf_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fields_pdf_t500.0}}}
+  \caption{Normalized PDFs of the fields and their time-derivatives at various times during the evolution.  The markers and dashed style lines are empirical measurements taken from simulations.  The solid lines are Gaussian fits to the data for $a^{3/2}\phi$ and $a^{3/2}\chi$.}
+  \label{fig:field_pdf_slices_m2g2}
+\end{figure}
+
+As with the phonons, we again consider the Gaussianity of individual Fourier modes of the fields through both the excess kurtosis in~\figref{fig:field_kurtosis_m2g2}
+and binned one-point PDFs in~\figref{fig:phi_fourierpdf_m2g2} and~\figref{fig:chi_fourierpdf_m2g2}.
+Exactly as for the phonons, the nonlinear interactions between the resonantly excited modes lead to a large buildup of kurtosis at $k \lesssim 50m$ at the beginning of the shock.
+In the individual Fourier amplitude PDFs, this manifests as a peaking of the distribution relative to a Gaussian.
+As the cascade proceeds (both during and after the shock), the nonGaussianity (as measured by the kurtosis) moves to larger wavenumbers.
+However, unlike the phonon fields, the kurtosis of $\phi$ does not completely dissipate after the shock, but instead a nonGaussian component persists for wavenumbers $k \sim 150m$ well after the shock.
+The $\chi$ field does not maintain such a localized (in scale) set of nonGaussian modes, but a slight excess kurtosis remains for the larger k-modes near the Nyquist.
+This is (at least partially) due to the finite grid spacing.
+Thus, unlike the one-point PDF, there are no obvious signs of nonGaussianity in the $\chi$ modes when considering the distribution of Fourier modes.
+From our analysis, it is thus unclear whether the nonGaussianity of the spatial 1-point PDF of $\chi$ arises from mode couplings in Fourier space or from the nonGaussianity of poorly resolved superNyquist modes.
+We intend to return to this question in the future by considering the evolution of the 1-point field PDF as we apply various smoothing kernels to the field to remove the modes near the Nyquist.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_m2g2_t300.0}}}
+  \caption{Excess kurtosis $\kappa_4$ of the field variables $\phi$ and $\chi$.}
+  \label{fig:field_kurtosis_m2g2}
+\end{figure}
+
+\begin{figure}[!ht]
+  \includegraphics[width=0.48\linewidth]{{{fourdist_phi_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_phi_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_phi_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_phi_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_phi_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_phi_m2g2_t300.0}}}
+  \caption{Probability density function of Fourier moments for the field $\phi$ normalized to the power spectrum (ie. RMS fluctuation amplitude).}
+  \label{fig:phi_fourierpdf_m2g2}
+\end{figure}
+
+\begin{figure}[!ht]
+  \includegraphics[width=0.48\linewidth]{{{fourdist_chi_m2g2_t110.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_chi_m2g2_t120.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_chi_m2g2_t122.5}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_chi_m2g2_t125.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{fourdist_chi_m2g2_t150.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{fourdist_chi_m2g2_t300.0}}}
+  \caption{Probability density function of Fourier moments for the field $\chi$ normalized to the power spectrum (ie. RMS fluctuation amplitude).}
+  \label{fig:chi_fourierpdf_m2g2}
+\end{figure}
+
+From the results of this subsection, it is clear that the fundamental field variables remain significantly nonGaussian after the shock.
+This is in contrast to the phonon modes (in particular $\lnr$), whose one-point statistics are remarkably Gaussian shortly after the shock-in-time has occurred.
+Thus, our MaxEnt prescription is less well motivated when considering the field variables compared to the phonon variables, although the qualitative features of the entropy are insensitive to the particular choice.
+
+\section{Maximum Entropy for Noncanonical Variables}
+\label{sec:noncanonical_entropy}
+Thus far we have presented two entropies based on different choices for collective variables that we have measured for a collection of scalar fields undergoing a resonant preheating instability.
+In both cases, there is a short well-defined period of rapid entropy production -- the shock-in-time -- connecting a regime of approximately linear fluctuation evolution with a regime of complex nonlinear evolution of the fluctuations.
+Although the qualitative behaviour is the same in both cases, they differ in quantitative details.
+This is not unexpected, since after the shock $(\delta\phi_i,\delta\Pi_i)$ and $(\delta\ln(\rho),\delta\partial_t\ln(\rho))$ are nonlinearly related to each other
+so that knowledge of the two-point correlations of one set of variables is inequivalent to knowledge of the two-point correlators of the other set of variables.
+Since this was the basic assumption built into our construction of the entropy, in the post-shock state we expect quantitative differences between the two definitions.
+Furthermore, the phonon variables do not constitute a complete description of the system (except for the case of a single-field system), and additional information can be stored in appropriate energy differences which we did not account for.
+
+However, during the preshock evolution the fields are well described by a set of homogeneous field condensates interacting with a collection of \emph{linear} fluctuations.
+Similarly, the fluctuations in the energy density are also linear to a good approximation.
+Therefore, there is a linear transformation between the two variable sets (assuming we also include $N_{fld}-1$ energy differences and their time derivatives) and one might therefore expect that knowledge of the correlators in either coordinate system should be equivalent.
+However, even at early times, we see that the two definitions used above are inequivalent.
+In particular, the entropy in the phonon variables undergoes oscillations while also experiencing an overall damping.
+In contrast, prior to the shock the entropy in the field variables is very nearly constant.
+Since the preshock dynamics of the fluctuations is linear, this property of the entropy in the field variable description is desirable.
+We will now reconcile this apparent contradiction, which will also shed further light on the special role that is played by the fundamental fields $\phi_i$.
+
+As we alluded to earlier, the origin of this discrepancy is that the field variables and their canonical momenta constitute a set of canonical coordinates, while the $(\ln(\rho),\partial_t\ln(\rho))$ variables do not.
+Let $\varphi^A$ denote a collection of (possibly noncanonical) fields that we are using to describe our system, with $A$ labelling the particular field.
+In the lattice case, the values of the fields at each lattice site $\varphi_i^A$ coordinatize the phase-space of the system, so we will refer to them as coordinates.
+For notational simplicity, we suppress the index $A$ in the following discussion and define the functional measure $\mathcal{D}\varphi \equiv \Pi_{i,A} d\varphi_i^A$ throughout.
+The entropy functional introduced earlier was based on averaging defined as $\langle F(\varphi)\rangle_c = \int\mathcal{D}\varphi P[\varphi]F(\varphi)$ so 
+$S=-\int\mathcal{D}\varphi P\ln P = \langle -\ln P \rangle_c$.
+In the remaining discussion we refer to this as \emph{canonical} averaging.
+As is well known, this entropy is not invariant under coordinate changes $\varphi \to \tilde{\varphi}$ since the probability density in the new coordinates acquires a factor of the Jacobian $\tilde{P}[\tilde{\varphi}]\left|\frac{\partial\tilde{\varphi}}{\partial\varphi}\right| = P[\varphi]$.
+We propose to instead compute entropy using a \emph{noncanonical} definition of ensemble averaging 
+\begin{equation}
+  \langle F(\varphi)\rangle_{nc} \equiv \int\mathcal{D}\varphi \sqrt{\mathcal{G}} Q[\varphi] F(\varphi) \qquad \mathcal{J}^2  \equiv \mathcal{G} \equiv \left|\frac{\partial\varphi_c}{\partial\varphi} \right|^2
+  \label{eqn:noncanonical_average}
+\end{equation}
+with $\varphi_{c}$ some collection of \emph{canonical} field coordinates.
+Whenever $\varphi$ are a canonical set of fields, $\mathcal{J}=1$ and this definition reduces to our previous one.\footnote{Equivalently, we could absorb $\mathcal{J}$ into a definition of the noncanonical functional measure.}
+Generally, we have $\mathcal{J} = \sqrt{\mathcal{G}}$ where $\mathcal{G}$ is the determinant of a metric on field space.
+The invariant functional measure $\mathcal{D}_{nc}\varphi = \sqrt{\mathcal{G}}\Pi_i\varphi_i$ then takes the same form as the invariant measure familiar from general relativity $\sqrt{|g|}d^dx$.
+We thus define a noncanonical entropy functional
+\begin{equation}
+  S_{nc} \equiv -\langle \ln Q[\varphi]\rangle_{nc} = -\int\mathcal{D}\varphi\mathcal{J}Q\ln Q \, .
+  \label{eqn:entropy_noncanonical}
+\end{equation}
+With ensemble averaging defined via~\eqref{eqn:noncanonical_average}, the PDFs $Q[\varphi]$ are invariant under coordinate changes, and thus so is the entropy.
+Equivalently, we can use the canonical averaging procedure (where the PDFs do transform)
+\begin{equation}
+  S_{nc} = -\langle \ln(P/\mathcal{J}) \rangle_c = - \int\mathcal{D}\varphi P[\varphi]\ln\left(\frac{P[\varphi]}{\mathcal{J}}\right) \, .
+  \label{eqn:ent_noncanon_canave}
+\end{equation}
+The transformation of the PDF is now absorbed by the Jacobian, so in either case $S_{nc}$ is invariant under arbitrary changes of the variables $\varphi$, 
+and thus is a suitable generalization of the differential entropy to the noncanonical case.
+We can move between the two definitions~\eqref{eqn:entropy_noncanonical} and~\eqref{eqn:ent_noncanon_canave} through the identification $P[\varphi] = \mathcal{J}Q[\varphi]$.
+
+The alert read will undoubtedly notice that this last definition of the entropy is very similar to the (negative of) the Kullback-Leibler (KL) divergence~\cite{Kullback:1951}, if we were to replace $\mathcal{J}$ with a reference probability distribution.
+Indeed, we are using $\mathcal{J}$ to absorb the transformation properties of the PDF in exactly the same manner as the reference distribution absorbs the transformation in the KL divergence.
+However, we do not require that $\mathcal{J}$ be properly normalized so that the usual theorem about the positivity of the KL divergence (which would imply $S_{nc} < 0$) does not apply.
+
+As an alternative derivation of the noncanonical entropy consider the relation of the (continuous) differential Shannon entropy to the discrete version $S_{discrete}=-\sum_ip_i\ln(p_i)$, where $p_i$ are the probabilities for a discrete set of outcomes labellel by $i$.
+For simplicity, we will consider only a single variable, which we denote x, with probability \emph{density} $\mu(x)$.  The generalization to the case of many variables and discretized fields is straightforward.
+From the probability density, form a discrete set of probabilities by partitioning $x$ into a collection of subintervals $\Delta x_i$ centered on $x_i$.
+We then associate a probability $P_i \equiv \mu(x)\Delta x_i$ with each of these intervals, resulting in the Shannon entropy 
+$S_{discrete} = -\sum_i P_i\log P_i = -\sum_i \mu(x_i)\Delta x_i\log(\mu(x_i)) - \sum_i\mu(x_i)\Delta x_i\log(\Delta x_i)$.
+Taking the length of the intervals $\Delta x_i \to 0$ we obtain
+\begin{equation}
+  S_{discrete} = -\int dx\mu(x)\log(\mu(x)) - \lim_{\Delta x_i \to 0}\sum_iP_i\log(\Delta x_i) \, .
+\end{equation}
+The final term is an infinite constant dependent on the choice of discretization of the interval that must be subtracted to obtain the differential entropy.
+Now instead suppose we choose a new variable $y=y(x)$ with corresponding probability density $\nu(y)$.
+Let's once again slice the interval up into segments $\Delta y_i$ and demand that $\Delta y_i\nu(y_i) = \Delta x_i\mu(x_i)$ and $y_i=y(x_i)$.
+$S_{discrete}$ is the same in both cases and we have $S[x]-S[y] = -\lim_{\Delta x_i \to 0} \sum_iP_i\log(\Delta x_i/\Delta y_i) \to -\langle\log(|\partial x/\partial y|)\rangle$.\footnote{This of course assumes that $\nu(y)$ is absolutely continuous with respect to $\mu(x)$ so that no singularities appear in the limit.}
+Letting $x$ be our canonical variable, this gives precisely the additional term in~\eqref{eqn:ent_noncanon_canave}.
+
+Given a set of constraints $\langle\mathcal{O}_i(z)\rangle_{nc} = \alpha_i$,\footnote{All of the following results can equivalently be obtained using the canonical ensemble averaging and~\eqref{eqn:ent_noncanon_canave}.} one can easily show that the maximum entropy distribution (if it exists) is
+\begin{equation}
+  Q_{nc}^{MaxEnt}[\varphi] = \frac{e^{-\sum_i\lambda_i\mathcal{O}_i(\varphi)}}{Z_{nc}} \, .
+\end{equation}
+where we have explicitly solved for the Lagrange multiplier $\lambda_{norm} = \ln Z_{nc}$ associated with the overall normalization of the probability
+\begin{equation}
+  Z_{nc} = \int\mathcal{D}\varphi\mathcal{J}e^{-\sum_i\lambda_i\mathcal{O}_i(\varphi)} \, .
+\end{equation}
+The remaining Lagrange multipliers $\lambda_i$ are determined by the constraints
+\begin{equation}
+  \langle \mathcal{O}_i\rangle_{nc} = \frac{1}{Z_{nc}}\int\mathcal{D}\varphi\mathcal{J}e^{-\sum_i\lambda_i\mathcal{O}_i} \mathcal{O}_i = \alpha_i 
+\end{equation}
+with the corresponding constrained entropy
+\begin{equation}
+  S_{nc} = \ln Z_{nc} + \sum_i\lambda_i\alpha_i = \ln Z_{nc} - \sum_i\frac{\partial\ln Z_{nc}}{\partial\ln\lambda_i} %+ \frac{1}{2}\langle\ln(det(\mathcal{J}^2)\rangle_{c} \, .
+  \label{eqn:maxent_noncanonical}
+\end{equation}
+
+For the special case of a constant $\mathcal{J}$ and a measured covariance matric $C$, we find
+\begin{equation}
+  S^{nc}_{G} = \frac{1}{2}\ln\left(\frac{\det C}{\mathcal{A}_{eff}^2}\right) + \frac{N}{2}\ln 2\pi + \frac{1}{2}Tr\mathbb{I} \qquad \mathcal{A}_{eff} \equiv \mathcal{J}^{-1} \, .
+  \label{eqn:maxent_nc_lin_gaussian}
+\end{equation}
+The final result~\eqref{eqn:maxent_nc_lin_gaussian} has a very simple interpretation.
+$\sqrt{\det(C)}$ is a measure of the volume in phase space occupied by the fluctuations in the variables $\varphi$, while $\mathcal{A}_{eff}$ is a measure of the phase space volume in the transformed variables $\varphi$ occupied by a single unit of phase space volume in the original canonical variables $\varphi_C$.
+Consideration of the von Neumann entropy (see section~\ref{sec:vn_entropy}) dictates that the canonical variables are the correct choice in which to partition phase space.
+%{\bf More explicit derivation of this below?}
+Therefore, the state-dependent contribution to the entropy is simply $\ln(n_{PV})$ where $n_{PV}$ is a measure of the number of fundamental units of phase volume occupied by the fluctuations.
+
+%{\bf See if some nice statement can be made when the variable change isn't linear (I don't think the stuff above still works.}
+
+Before continuing, we also note the amusing fact that (in the semiclassical limit) the Jacobian determinant is also stored in the two-point correlation function.
+To see this, consider a collection of (possibly noncanonical) observables $\hat{z}_\alpha(\hat{q})$ labelled by $\alpha$, 
+where $\hat{q}$ represent a set of canonical observables for the system.
+For the case of latticized fields, $\alpha = (S,i)$ where $S$ denotes the particular field and $i$ the lattice site.
+The complete set of two-point correlation information is then stored in
+\begin{equation}
+  W_{\alpha\beta} = \langle \hat{z}_\alpha\hat{z}_\beta\rangle
+\end{equation}
+where $\langle\cdot\rangle$ denotes a quantum expectation value.
+$W$ naturally splits into a symmetric piece and an antisymmetric piece
+\begin{equation}
+  W_{\alpha\beta} = \frac{1}{2}\langle \{\hat{z}_\alpha,\hat{z}_\beta\} \rangle + \frac{1}{2}\langle [\hat{z}_\alpha,\hat{z}_\beta] \rangle
+\end{equation}
+with $\{\cdot,\cdot\}$ the anticommutator and $[\cdot,\cdot]$ the commutator.
+The second term is the ``quantum'' part of the two-point function that provides information on the discretization of phase space.
+In the semiclassical limit this becomes clear since $[\cdot,\cdot] \to i\hbar[\cdot,\cdot]_{PB} + \mathcal{O}(\hbar^2)$ with $[F,G]_{PB} = \frac{\partial F}{\partial x_i}\frac{\partial G}{\partial p_i} - \frac{\partial F}{\partial p_i}\frac{\partial G}{\partial x_i}$ the canonical Poisson bracket.
+Arranging our canonical variables $q^T = ( \vec{x}, \vec{p} )$ so that the position coordinates appear first and the momentum coordinates second,
+\begin{equation}
+  [z_i,z_j]_{PB} = \frac{\partial{z_i}}{\partial{q_m}}J_{mn}\frac{\partial{z_j}}{\partial{q_n}}
+\end{equation}
+with $J = \left[\begin{array}{cc} 0 & \mathbb{I} \\ -\mathbb{I} & 0\end{array}\right]$.
+%{\bf I don't think this is correct anymore}
+From this we see that $|\det [\hat{z}_\alpha,\hat{z}_\beta] | = \hbar^2\left|\frac{\partial z}{\partial q}\right|^2$ is simply the square of the Jacobian determinant for the transformation from the canonical variables $q$ to our new coordinates $z$.
+This suggests a possible formulation in which the Jacobian factor can be obtained by maximizing entropy with repect to the full quantum two-point information, although we don't pursue this here.
+
+\subsection{Von Neumann Entropy of a Gaussian Theory}
+\label{sec:vn_entropy}
+In this subsection we explicitly consider the connection between our (classical) Shannon entropy and the corresponding (quantum) von Neumann entropy.
+This will establish canonical variables as the fundamental description in which no additional Jacobian is needed.
+It will also explicitly demonstrate the origin of the $\ln 2\pi$ contribution to the entropy as a fundamental phase space volume.
+
+There are many ways to establish the connection between the classical and quantum entropies.  
+We will proceed by interpreting the Gaussian probability density functional for the fields $P[\phi_i,\Pi_i]$ as the Wigner function corresponding to some density matrix $\hat{\rho}$.
+In order for our lattice simulations to accurately approximate the full quantum dynamics, the fluctuations $\delta\phi$ and $\delta\Pi$ must initially be weakly coupled.
+Therefore, our initial density matrix is Gaussian to a very good approximation.
+
+For simplicity, consider the case of a single pair of canonical field variables $(x,p)$ with Wigner function
+\begin{equation}
+  W(x,p) \propto \exp\left(-\frac{1}{2}\left(ax^2 + bp^2 + 2cxp\right)\right)
+\end{equation}
+The corresponding density matrix (in the position basis) is
+\begin{align}
+  \langle x|\hat{\rho}|x'\rangle =\rho(x,x') &= \int dp e^{ip(x-x')}W\left(\frac{x+x'}{2},p\right) \\
+  &= \sqrt{\frac{ab-c^2}{2\pi b}}\exp\left(\frac{-(ab-c^2)}{2b}\left(\frac{x+x'}{2}\right)^2 - \frac{(x-x')^2}{2b} - i\frac{c(x^2-x'^2)}{2b}\right) \, .
+\end{align}
+%{\bf check sign on the ic term (this is determinent by the sign on exponent of Wigner transform. Get normalization.}
+We also have the relations
+\begin{equation}
+  \frac{ab-c^2}{b} = \frac{1}{\langle x^2\rangle} \qquad \frac{1}{b} = \frac{\langle x^2\rangle\langle p^2\rangle - \frac{1}{2}\langle \{x,p\}\rangle^2}{\langle x^2\rangle} \qquad \frac{c}{b} = -\frac{\langle \frac{1}{2}\{x,p\} \rangle}{\langle x^2\rangle}
+\end{equation}
+which allow us to reexpress the density matrix in terms of expectation values of combinations of the operators $\hat{x}$ and $\hat{p}$.
+The resulting (Gaussian) von Neumann entropy is
+\begin{align}
+  S_{vN} = -\mathrm{Tr}(\bar{\rho}\ln(\bar{\rho})) &= (n_{PV}+1)\ln(n_{PV}+1) - n_{PV}\ln n_{PV} \\
+  &= \left(\Delta^2 + \frac{1}{2}\right)\ln\left(\Delta^2+\frac{1}{2}\right) -\left(\Delta^2 - \frac{1}{2}\right)\ln\left(\Delta^2-\frac{1}{2}\right) \notag
+\end{align}
+where we have defined
+\begin{equation}
+ \Delta^2 \equiv n_{PV} + \frac{1}{2} = \langle\hat{x}^2\rangle\langle\hat{p}^2\rangle - \frac{1}{4}|\langle\{\hat{x},\hat{p}\}\rangle|^2 \,
+\end{equation}
+which is the analogue of our previously defined fluctuations determinants $\Delta^2_{\ln\rho},\Delta^2_\phi,\Delta^2_\chi$,\emph{etc.}
+Taking the limit $\Delta^2 \to \infty$, we then obtain
+\begin{equation}
+  S_{vN} \approx \ln\Delta^2 + 1 + \mathcal{O}(\Delta^{-2}) = S_{shannon} - \ln 2\pi \, . 
+\end{equation}
+
+
+\section{Entropy Production in Single-Field $\lambda\phi^4$ Preheating}
+\label{sec:entropy_phi4}
+Now that we have the relation between entropy in different choices of field coordinates, we show that during the linear stages the field and energy phonon descriptions give the same result, provided we use the noncanonical definition of the entropy.
+In order to avoid unnecessary technical complications, in this section we will study a single-field preheating model with potential $V(\phi)=\lambda\phi^4/4$.
+A brief synopsis of the preheating instability in this model can be found in section~\ref{sec:models_numerics}.
+Choosing $\phi$ as our field variable, the corresponding canonical momentum is then $\Pi \equiv a^2\partial_\tau\phi = a^3\dot{\phi}$.
+There are no longer any entropy modes associated with differences between two different fields and there are the same number of energy phonon fields as fundamental scalar fields.
+
+\subsection{Canonical Entropy in $\lambda\phi^4$}
+~\figref{fig:entropy_canon_l4} shows the canonical entropy in both the field and the energy phonon description.
+In both cases the shock is present, although it is much stronger for the phonons.
+Unlike the $m^2\phi^2 + g^2\phi^2\chi^2$ model we studied above, the shock now has additional structure with $dS/dt$ possessing two peaks.
+However, despite this difference in the details, the shock is still very well-localized in the time for the phonons, while possessing a much longer tail for the field description.
+\begin{figure}[h]
+  \centering
+%  \includegraphics[width=0.45\linewidth]{{{entropies_l4_fullt}}}
+  \includegraphics[width=0.32\linewidth]{{{entropy_l4_lnrho_and_field}}} \hfill
+  \includegraphics[width=0.32\linewidth]{{{mach_number_l4}}} \hfill
+  \includegraphics[width=0.32\linewidth]{{{dsdt_smooth_l4}}}
+  \caption[The entropy per mode for $\lambda\phi^4$ preheating, effective Mach number and entropy production rate per effective degree of freedom]{\emph{Left}: The entropy per mode for $\lambda\phi^4$ preheating using the energy phonon ($\lnr$,$\dlnr$) description as well as the field description.  In order to remove the short-time scale oscillations associated with evolution of the homogeneous components of the fields, we have filtered the signal with a Kaiser filter.  \emph{Middle}:  The effective Mach number $|\ln(\rho/\bar{\rho})|^{-1}$ for $\lambda\phi^4$ preheating, again showing a rapid decline around the shock-in-time.  \emph{Right}:  Entropy production rate per effective degree of freedom for the same entropies as the left plot.  Again, a Kaiser filter has been applied to remove the high frequency oscillations.  For all figures we used a box with $N=512^3$ lattice sites with side length $\sqrt{\lambda}M_PL = 20$ when $\epsilon = 1$ at the start of the simluation.  The cutoff on the Fourier modes to compute the entropy was $k_{cut}=k_{nyq}=\pi N_{lat}^{1/3}L^{-1}$.}
+  \label{fig:entropy_canon_l4}
+\end{figure}
+The qualitative behaviour of the one-point distributions and breaking of nongaussianity is very similar to the $m^2\phi^2+g^2\phi^2\chi^2$ model, as will be evident from the following brief summary.
+Prior to the shock the flucutations evolve linearly, leading to Gaussian distributions for both the fields and the energy phonons.\footnote{Once again, there is the additional caveat that in the short time intervals when $\dot{\bar{\phi}}^2 \lesssim \langle \delta\dot{\phi}^2\rangle$, nonlinear terms in $\dlnr$ are important and the one-point distribution becomes temporarily nongaussian.}
+During the shock significant nongaussianity develops in all of the fields due to the nonlinear interactions of the fluctuations.
+At first the nongaussian contributions are confined to $k\lesssim 10m$, corresponding to the modes experiencing parametric resonance.
+However, this quickly spreads to higher wavenumbers as a rapid cascade transfers power to smaller scales at the shock as illustrated by the excess kurtosis in~\figref{fig:kurtosis_lnr_l4} and~\figref{fig:kurtosis_fields_l4}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_l4_t125.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_l4_t150.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_l4_t175.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_l4_t200.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_l4_t225.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_lnr_l4_t1000.0}}}
+  \caption{Kurtosis $\kappa_4$ as defined in~\eqref{eqn:kurtosis_def} for the energy phonons $\lnr$ and $\dlnr$ in single-field $\lambda\phi^4$ preheating.  }
+  \label{fig:kurtosis_lnr_l4}
+\end{figure}
+%\begin{figure}[h]
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_lnr_l4_t125}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_lnr_l4_t150}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_lnr_l4_t175}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_lnr_l4_t200}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_lnr_l4_t225}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_lnr_l4_t1000}}}
+%  \caption{PDFs of the real and imaginary components of the prewhitened Fourier components of $\widetilde{\ln\rho}_k/\sqrt{\langle|\widetilde{\ln\rho}_k|^2\rangle}$ in various bins for $\lambda\phi^4$ model.}
+%  \label{fig:four_dist_lnrho_l4}
+%\end{figure}
+%\begin{figure}[h]
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dlnr_l4_t125}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dlnr_l4_t150}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dlnr_l4_t175}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dlnr_l4_t200}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dlnr_l4_t225}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dlnr_l4_t1000}}}
+%  \caption{PDFs of prewhitened Fourier components of $\partial_t\ln\rho$ in various bins for $\lambda\phi^4$ model.}
+%  \label{fig:four_dist_dlnrho_l4}
+%\end{figure}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_l4_t125.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_l4_t150.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_l4_t175.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_l4_t200.0}}} \\
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_l4_t225.0}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{kurtosis_fields_l4_t1000.0}}}
+  \caption[Excess kurtosis $\kappa_4$~\eqref{eqn:kurtosis_def} for the field variables $\phi$ and $\partial_\tau\phi$ in single field $\lambda\phi^4$ preheating]{Excess kurtosis $\kappa_4$~\eqref{eqn:kurtosis_def} for the field variables $\phi$ and $\partial_\tau\phi$ in single field $\lambda\phi^4$ preheating.  As the shock is approached, nongaussianities develop in the modes $k \lesssim 10\sqrt{\lambda}M_P$ corresponding to the linear resonant instability.  As the fields move through the shock, additional bands of nongaussianity appear which then spread to higher wavenumbers.  At late times a nonnegligible amount of nongaussianity persists form $k \sim 60\sqrt{\lambda}M_P$.}
+  \label{fig:kurtosis_fields_l4}
+\end{figure}
+
+%\begin{figure}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_phi_l4_t125}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_phi_l4_t150}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_phi_l4_t175}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_phi_l4_t200}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_phi_l4_t225}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_phi_l4_t1000}}}
+%  \caption[PDFs of prewhitened Fourier components of $a\delta\phi$ in various bins for $\lambda\phi^4$ model]{PDFs of prewhitened Fourier components of $a\delta\phi$ in various bins for $\lambda\phi^4$ model.  Prior to the shock, the nongaussian buildup appears as a large excess of modes with very small amplitude.}
+%  \label{fig:four_dist_phi_l4}
+%\end{figure}
+
+%\begin{figure}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dphi_l4_t125}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dphi_l4_t150}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dphi_l4_t175}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dphi_l4_t200}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dphi_l4_t225}}}
+%  \includegraphics[width=0.3\linewidth]{{{fourdist_dphi_l4_t1000}}}
+%  \caption[PDFs of prewhitened Fourier components of $a\partial_\tau\delta\phi$ in various bins for $\lambda\phi^4$ model]{PDFs of prewhitened Fourier components of $a\partial_\tau\delta\phi$ in various bins for $\lambda\phi^4$ model.  The qualitative development of the nongaussianity is the same as for the field modes illustrated in~\figref{fig:four_dist_phi_l4}.}
+%  \label{fig:four_dist_dphi_l4}
+%\end{figure}
+
+\subsection{Noncanonical Entropy in $\lambda\phi^4$}
+Now consider the evolution of the noncanonical entropy for the energy phonons $\lnr$ and $\dlnr$.
+During the early stages of the evolution we expand to linear order in the field fluctuations to obtain
+\begin{align}
+   \delta\ln\rho &\approx \frac{V'(\bar{\phi})}{\bar{\rho}}\delta\phi + \frac{\bar{\Pi}}{a^6\bar{\rho}}\delta\Pi \notag\\
+  \delta\partial_t\ln\rho &\approx \frac{3H(w-1)\bar{\Pi}}{a^6\bar{\rho}}\delta\Pi + \left(\frac{3H(1+w)V'(\bar{\phi})}{\bar{\rho}} + \frac{\bar{\Pi}}{a^5\bar{\rho}}\nabla^2 \right)\delta\phi \, .
+  \label{eqn:linear_transform}
+\end{align}
+Since this is a linear transformation, the Jacobian is field independent and we can use~\eqref{eqn:maxent_nc_lin_gaussian}.
+By Fourier transforming we can simultaneously diagonalize both the covariance matrix and the Jacobian and perform the variable change for each Fourier mode independently.
+This gives the (linear) Jacobian
+\begin{equation}
+  \mathcal{J}^{-1} = \Pi_{\bf k}\mathcal{J}_{\bf k}^{-1} \qquad \mathcal{J}_{\bf k}^{-1} = \left|\frac{\partial(\delta\ln\rho_k,\partial_t\delta\ln\rho_k)}{\partial(\delta\phi_k,\delta\Pi_k)}\right| = \left| \frac{\dot{\bar{\phi}}^2k^2}{a^5\bar{\rho}^2} - 6H\frac{\dot{\bar{\phi}}V'(\bar{\phi})}{a^3\bar{\rho}^2} \right| \, .
+  \label{eqn:linear_jacobian}
+\end{equation}
+In~\eqref{eqn:linear_jacobian}, we have assumed that we can replace $-\nabla^2\delta\phi \to k^2\delta\phi$ upon Fourier transforming.
+However, our numerical simulations use a finite-difference stencil for the Laplacian so that this relationship will be distorted for values of $k$ too near the Nyquist frequency.
+Specifically, the coupling of neighbouring lattice sites via the stencil produces off-diagonal terms in the full Jacobian matrix.  These then lead to trigonometric corrections to the dispersion relationship.
+
+After the shock the fluctuations interact nonlinearly and the required transformations between the variables become significantly more complicated.
+%Ignoring for the moment the change in $\bar{\rho}$ due to changes in $\phi$ and $\Pi$, the relevant derivatives are
+%\begin{equation}
+%  \frac{\delta\ln\rho_i}{\delta\phi_j} = \left(\frac{V'(\phi_i)}{\rho_i} - \sum_\alpha \frac{d_\alpha(\phi_{i+\alpha}-\phi_i)}{a^2\rho_i} \right)\delta^j_i + \left(\sum_\alpha\frac{d_\alpha(\phi_{i+\alpha}-\phi_i)}{a^2\rho_i} \right)\delta^j_{i+\alpha}
+%\end{equation}
+%\begin{equation}
+%  \frac{\delta\ln\rho_i}{\delta\Pi_j} = \frac{\Pi_i}{a^6\rho_i} \delta^j_i
+%\end{equation}
+%\begin{align}
+%  \frac{\delta\partial_t\ln\rho_i}{\delta\phi_j} = 
+%  \frac{\Pi}{a^5\rho_i}\delta\nabla^2\phi - \frac{H}{a^2\rho_i}\delta(\nabla\phi^2) + \frac{\nabla\Pi}{a^5\rho_i}\delta\nabla\phi &+ \\ \notag
+%   \left(3H(1+w) + \frac{\partial_iT^{i0}}{\rho_i} \right)
+%   \left[\frac{V'(\phi)}{\rho_i} - \frac{1}{a^2\rho_i}\sum_\alpha d_\alpha\left(\phi_{i+\alpha}-\phi_i\right)\right]\delta_i^j + \frac{1}{a^2\rho_i}\sum_\alpha d_\alpha\left(\phi_{i+\alpha}-\phi_i\right)\delta_{i+\alpha}^{j} {\bf finish this}
+%\end{align}
+%\begin{equation}
+%  \frac{\delta\partial_t\ln\rho_i}{\delta\Pi_j} = \left( \frac{3H\Pi_i}{a^6\rho_i}(w-1) - \frac{\partial_iT^{i0}\Pi_i}{a^6\rho_i^2} + \frac{\nabla^2\phi}{a^5\rho} - \frac{1}{a^5\rho}\sum_\alpha d_\alpha(\phi_{i+\alpha}-\phi_i) \right) \delta^j_i + \left(\frac{1}{a^5\rho_i}\sum_\alpha d_\alpha(\phi_{i+\alpha}-\phi_i) \right) \delta^j_{i+\alpha} \, .
+%\end{equation}
+%The coefficients $d_\alpha$ are defined by our choice of finite difference stencil and are given in section~\ref{sec:models_numerics}.
+Unfortunately, the resulting Jacobian is nondiagonal in both real space (due to the lattice couplings induced by the derivative operators) and in Fourier space (due to the nonlinearity).
+This makes computing the required determinant a rather nontrivial task, and once the Jacobian is known the MaxEnt computation itself is much more involved than in the case of linear transformations.
+Our primary purpose in this paper is to demonstrate the existence of the shock-in-time, which exists for both the field and energy phonon variables.
+Since a proper computation of the Jacobian and resulting noncanonical entropy will not change this conclusion, we content ourselves here with the much simpler task of comparing the two coordinate systems assuming that the transformation is linear throughout the evolution. 
+This will be an accurate approximation prior to the shock, but will presumably be quantitatively quite poor during the post-shock evolution.
+
+In~\figref{fig:noncanonical_determinant_wjacobian} we plot the fluctuation determinants for both the fields and the phonons rescaled by the linear Jacobian.
+The distortion of the dispersion relationship for $k$ near the Nyquist frequency is visible for $k \gtrsim 30m$.
+However, these modes remain unexcited during the linear evolution so this simply contributes a constant offset between the entropies prior to the shock.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{determinants_noncanonical_phi4_preshock}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{determinants_noncanonical_phi4_postshock}}}
+  \caption[Spectral decomposition of the determinants that enter into the calculation of noncanonical entropies in the field and energy phonon descriptions]{Spectral decomposition of the determinants that enter into the calculation of noncanonical entropies in the field and energy phonon descriptions. In the left panel we show slices at $\sqrt{\lambda}M_P\tau = 0, 25, 50, ..., 150$ showing the excellent agreement between the two descriptions prior to the shock.  In the right panel we instead show $\sqrt{\lambda}M_P\tau = 162.5, 175, ..., 237.5$ demonstrating the breakdown of the equivalence between the phonon and field description if we incorrectly use the linear Jacobian.}
+  \label{fig:noncanonical_determinant_wjacobian}
+\end{figure}
+The resulting entropies are shown in~\figref{fig:noncanonical_entropy_compare}.
+During the stages of linear evolution of the fluctuations prior to the shock, we see that the noncanonical entropies in either description match to very high accuracy, modulo an overall constant associated with our use of a finite-difference stencil to approximate the derivatives.
+Meanwhile, comparing the canonical entropies leads to large oscillating variations.
+After the shock this equivalence breaks down as a result of our incorrect determination of the Jacobian in this regime as well as the nongaussian nature of the field variables. 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.48\linewidth]{{{entropies_l4_preshock}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{entropies_l4_fullt}}}
+  \caption[Comparison of noncanonical entropies in the field ($S_{nc}^{\phi}$) and energy phonon ($S_{nc}^{\ln\rho}$) descriptions]{Comparison of noncanonical entropies in the field ($S_{nc}^{\phi}$) and energy phonon ($S_{nc}^{\ln\rho}$) descriptions.  For comparision, we also include the phonon entropy computed using the canonical prescription $S_c^{\ln\rho}$ and the correction from the Jacobian $S_{\mathcal{J}}$.  By definition $S_{nc}^{\ln\rho} = S_{c}^{\ln\rho} + S_{\mathcal{J}}$.  In the left panel we plot the preshock evolution to demonstrate the excellent agreement between the two variable choices.  In the right panel we show the post-shock evolution as well, where we continue to (incorrectly) use the linear Jacobian to estimate the noncanonical corrections to the energy phonons.}
+  \label{fig:noncanonical_entropy_compare}
+\end{figure}
+
+Despite the remarkable agreement throughout most of the preshock evolution, there are short intervals of time when the cancellation between $S^{nc}_{\ln\rho}$ and $\ln\mathcal{A}_{eff}^2$ is less precise and blips appear between the two noncanonical entropies.
+This arises because the \emph{linear} transformation~\eqref{eqn:linear_transform} is singular for $k^2 = 6a^2H\lambda\bar{\phi}^3/\dot{\bar{\phi}}$ (if a solution exists).
+Furthermore, whenever $\dot{\bar{\phi}}=0$ the transformation is singular for all wavenumbers.
+Around these points, additional nonlinear terms in the transformation must be taken into account.
+As well, in the former case the Jacobian changes sign at the singular point.
+When numerically estimating power spectral densities, we must bin wavenumbers into various bands leading to a fuzziness in wavenumber space.
+This means that we cannot precisely resolve the cross-over point leading additional errors.
+These phenomena are illustrated in~\figref{fig:entropy_components_wjacobian}, where we give an example where the linear transformation has no singularities, an isolated singularity at a single wavenumber $k$ and a near singularity for a range of wavenumbers.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.95\linewidth]{{{noncanonical_det_components_multipanel}}}
+%  \includegraphics[width=0.32\linewidth]{{{noncanonical_det_components_l4_t2.0}}} \hfill
+%  \includegraphics[width=0.32\linewidth]{{{noncanonical_det_components_l4_t1.5}}} \hfill
+%  \includegraphics[width=0.32\linewidth]{{{noncanonical_det_components_l4_t53.2}}}
+%  \includegraphics[width=0.3\linewidth]{{{noncanonical_det_components_l4_t1.2}}}
+%  \includegraphics[width=0.3\linewidth]{{{noncanonical_det_components_l4_t1.5}}}
+%  \includegraphics[width=0.3\linewidth]{{{noncanonical_det_components_l4_t2.0}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{noncanonical_det_components_l4_t12.5}}}
+%  \includegraphics[width=0.3\linewidth]{{{noncanonical_det_components_l4_t53.2}}}
+%  \includegraphics[width=0.3\linewidth]{{{noncanonical_det_components_l4_t500.0}}}
+  \caption[Comparison of the phonon entropy determinant, the field entropy determinant and the Jacobian for three times]{A comparison of the phonon entropy determinant, the field entropy determinant and the Jacobian for three times illustrating \emph{left}: The excellent agreement between the two descriptions when the linear transformation posesses no singularies, \emph{center}: a blip in the agreement due to a small band of wavenumbers where the linear transformation is singular and nonlinear terms and numerical noise becomes important and \emph{right}: a time with $\bar{\Pi} \approx 0$ so that the entire linear transformation is nearly singular and nonlinear effects are important in a wide range of wavenumbers.}
+  \label{fig:entropy_components_wjacobian}
+\end{figure}
+
+%{\bf More description of the correlations, PDFs etc in here}
+%\begin{figure}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_lnr_l4_t100.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_lnr_l4_t125.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_lnr_l4_t150.0}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_lnr_l4_t175.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_lnr_l4_t200.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_lnr_l4_t500.0}}}
+%  \caption{Cross-correlations for $\lambda\phi^4$}
+%\end{figure}
+
+%\begin{figure}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_fields_l4_t100.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_fields_l4_t125.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_fields_l4_t150.0}}} \\
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_fields_l4_t175.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_fields_l4_t200.0}}}
+%  \includegraphics[width=0.3\linewidth]{{{crosscorrelations_fields_l4_t500.0}}}
+%  \caption{Cross-correlations for $\lambda\phi^4$ field variables}
+%\end{figure}
+
+%{\color{blue}
+%Once the fluctuations begin to interact nonlinearly, we can no longer block diagonalize the Jacobian matrix via a Fourier transform and we must are forced to compute the determinant of a large non-diagonal matrix.
+%{\bf Actually, if we wanted to compute using the maxent distribution, this would be horrible since everything is coupled by the log}
+%{\bf is this really true?  There must be a smart way to do this.  Without the gradient terms, the matrix is diagonal in real space.  Can't I just Fourier transform the expression with all the nonlinear terms?  This actually seems like it should work.}
+%{\bf In a proper calculation we should evaluate the log determinant using the Gaussian form of the PDF.  This probably requires something like the replica trick, but this seems extremely difficult}
+%{\bf Can random matrix theory be used here somehow?  Is there a nice theory for the types of band diagonal matrices that the derivatives produce?}
+%As a result, we must compute the determinant of a large nondiagonal (but banded) matrix at each time step.
+%Since this is a rather nontrivial task, we leave this to future work.
+%However, we can avoid this complication by approximating the (probabilistic) expectation value of the Jacobian with respect to the inferred Gaussian probability distribution with an average over the lattice.
+%Since the covariance matrix is already being approximated by precisely such a lattice average, this step is not completely unjustified.
+%{\bf This is probably actually somewhat inconsistent with maximum entropy.  Would need to include that expectation of Jacobian is whatever we declare it to be, but that gets extremely nasty so lets ignore it}
+%{\bf is it better to say it turns into a simple product rather than diagonalize?}
+%Unfortunately, due to the mixing between lattice sites induced by derivative operators, even this approach is nontrivial as we must compute the determinant of a very large $N_{lat}xN_{lat}$ matrix at each time-step.
+%In order to obtain an estimate, we therefore make the further assumption that the variations of any gradient operator can be computed as if we were in the continuum limit and we drop the off-diagonal contributions.
+%}
+
+\section{Modulated Preheating from the Shock-in-Time}
+\label{sec:modulated_preheating}
+We've demonstrated the existence of fairly sharply defined hypersurface (the shock-in-time) on which the universe transitions from a state of high spatial coherence and low entropy to an incoherent state with high entropy.
+Prior to the shock, the evolution of the universe is well described by a scale factor coupled to a collection of \emph{homogeneous} fields oscillating in a potential.
+Post shock, the expansion is instead driven by a highly nonlinear medium whose collective variables seem to be $\ln(\rho)$ and its time derivative.
+Except for special choices of the field Lagrangian, the (time-averaged) equation of state $w=\bar{P}/\bar{\rho}$ will be different before and after the shock.
+In fact, for most examples of preheating that have be considered in the literature, $w(t)$ is a time-dependent quantity after the shock~\cite{Podolsky:2005bw}.
+For our two-field preheating model~\eqref{eqn:2field_model} this can be seen in the bottom panel of~\figref{fig:lnrho_entropy_m2g2}.
+If $w=const$ we have $e^{3(1+w)\ln a}\rho = const$, while we clearly see that the logarithm of this quantity is evolving.
+Therefore, given a physical mechanism to modulate the time that the shock occurs between Hubble-sized patches at the end of inflation, we can create models in which different regions of the observable universe underwent a different expansion history.\footnote{Here we are assuming that the preheating model is not one of the special cases where the pre- and post-shock equations of state are the same.}
+This allows for the generation of adiabatic density perturbations, which we call modulated preheating (for an example of another mechanism by which preheating can generate adiabatic perturbations see~\cite{Bond:2009xx,Chambers:2007se,Chambers:2008gu,Kohri:2009ac}).
+
+A specific example of such modulation occurs when the coupling between the inflaton and preheat fields is itself a function of some other light isocurvature mode $\sigma$.
+For~\eqref{eqn:2field_model} we would have $g^2 \to g^2(\sigma)$.
+This is similar in spirit to the usual mechanism of modulated reheating~\cite{Kofman:2003nx,Dvali:2003ar,Zaldarriaga:2003my,Dvali:2003em,Bernardeau:2004zz}.
+In these studies, the decay rate is assumed to be a simple function of $g^2(\sigma)$ and the universe is assumed to instantaneously transition between matter and radiation domination.
+However, in our example the universe does not immediately transition to a radiation bath and the timing of the transition can be an extremely complicated function of the initial value of the modulating field.
+
+As an explicit example of such a model we take $g^2(\sigma) = \delta^2\sigma^2$, so that during the preheating dynamics we have
+\begin{equation}
+  V(\phi,\chi,\sigma) = \frac{m^2}{2}\phi^2 + \frac{\delta^2}{2}\sigma^2\phi^2\chi^2 \, .
+  \label{eqn:potential_modulated}
+\end{equation}
+We further assume that the inflationary dynamics has lead to the creation of large scale inhomogeneities in $\sigma$ but not $\chi$.
+Indeed, if $\bar{\chi}=0$ then $m_{eff,\sigma}^2 = 0$ and $\sigma$ will indeed be light, although we have in mind a case where the effective potential~\eqref{eqn:potential_modulated} is only valid near the end of inflation and the potential in the inflationary regime could be of a much different form.
+If the dynamics of $\sigma$ are frozen at a fixed value $\sigma_0$, we then have an effective coupling $g_{eff}^2 = \delta^2\sigma_0^2$ between $\phi$ and $\chi$ of the form $g_{eff}^2\phi^2\chi^2/2$.
+Other theoretically well-motivated couplings include $g_{eff}^2 \sim e^{\alpha \sigma}$ or $g_{eff}^2 \sim e^{\beta\sigma^2}$.
+
+In~\figref{fig:modulated_shock} we show $dS_{\ln\rho}/dt$ (normalized to it's maximum value over the sampled values of $g^2_{eff}$ and $\ln a$) as we vary the effective coupling $g^2_{eff}$.  
+In the left panel we take $g^2$ to be a fixed external parameter.
+In the right panel we take $g^2_{eff}=\delta^2\sigma_0^2$ with $\sigma$ a dynamical field with nonzero vev at the beginning of the simulation and $\delta M_P^2/m = 100$.
+This choice does not provide a realistic model for the modulation, since $\sigma$ must acquire Planck scale fluctuations to scan the range of $g^2_{eff}$ values plotted in~\figref{fig:modulated_shock}.
+Rather, this model is meant as an illustration that the mechanism can continue to operate even with dynamical modulating fields.
+For either case there is a strong modulation of the shock hypersurface as $g_{eff}$ is varied.  Comparing the left and right figures (accounting for the different linear scales), we see that the approximation of a fixed rather than dynamical $g^2$ reproduces the details of the hypersurface remarkably well.
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=0.48\linewidth]{{{entropy_rate_scang}}} \hfill
+  \includegraphics[width=0.48\linewidth]{{{entropy_rate_scangeff}}}
+  \end{center}
+  \caption[Coupling dependence of the shock hypersurface in the modulated preheating scenario]{Dependence of shock hypersurface of coupling constant in the Lagrangian.  In the left panel we show the resulting taking $g^2$ to be a fixed constant parameter in the simulations.
+    In the right panel we instead take the coupling to be a dynamical field with potential~\eqref{eqn:potential_modulated} whose initial condition $\sigma_0$ is varied between the simulations.
+  In either case, there is a strong modulation of the shock-in-time hypersurface as a function of the effective coupling, and comparison of the two plots demonstrates that for this particular model the approximation of a fixed coupling $g^2$ gives and accurate estimate of the timing of the shock.}
+  \label{fig:modulated_shock}
+\end{figure}
+
+The comoving curvature perturbation generated by this mechanism is determined by the differences in the overall expansion histories between different Hubble patches (simulation volumes) from the end of inflation (at $\epsilon = 1$) to a fixed energy density $\rho$, $\zeta_{preheat} = \delta\ln a|_\rho(\sigma_0)$.
+Since the equation of state changes abruptly at the shock, the modulation of $\ln(a_{shock})$ allows for the prodution of $\zeta_{preheat}$.
+These curvature perturbations $\zeta_{preheat}$ will then add to the perturbations generated by inflation $\zeta_{inf}$.
+Since the preheating process is local, $\zeta_{preheat}$ is simply a pointwise mapping of some other (Gaussian) random field $\sigma$.
+Thus, it should be considered a local form of nonGaussianity which may be strongly nonGaussian.
+However, $\zeta_{preheat}$ and $\zeta_{inf}$ are uncorrelated so this form of nonGaussianity is very different from the typical local $f_{NL}$ parameterization $\zeta = \zeta_{G} + \frac{3}{5}f_{NL}(\zeta_{G}^2-\langle\zeta_{G}^2\rangle)$ where $\zeta_{G}$ is a Gaussian random field.
+As a result, current constraints on this model are much weaker than those on $f_{NL}$, although $\zeta_{preheat}$ must still be subdominant to avoid spoiling the near Gaussianity of the CMB.
+
+There are two different regimes in which this modulation could occur.
+In the first, we could imagine that the spread of $g_{eff}^2$ within our observable patch is much smaller than the typical scale of the structure in the shock, but the value of $\sigma$ smoothed over our present Hubble patch is drawn from some distribution.
+The statistics of the generated $\zeta$ can then be determined using standard methods based on Taylor expansion, but the required derivatives will depend on the specific super-Hubble value of $\sigma$ that is realized in our observable Hubble patch.
+For the second case, $g^2$ instead realizes values probing some of the structure in the shock, leading to the generation of a strongly nonGaussian component to the density perturbations that is uncorrelated with those produced by the inflaton and poorly parameterized by a Taylor expansion.
+We then have a combined curvature perturbation $\zeta(x) = \zeta_{inf}(x) + F_{NL}(\sigma(x))$, exactly as found in the massless preheating model~\cite{Bond:2009xx}.
+
+%\begin{figure}
+%  \caption{{\bf Possible figure: equation of state for a few different $g^2$s}}
+%\end{figure}
+
+%Input parameters to make predictions here (once a model is fixed)
+%\begin{itemize}
+%  \item mean value of $\sigma$ over current observable universe
+%  \item in gaussian approximation, RMS of $\sigma$ over our observable universe, smoothed on either Hubble patches at end of inflation or on Hubble patches associated with scale of observations today
+%\end{itemize}
+
+%Useful possible formulas for encoding expansion
+%\begin{equation}
+%  -3 d\ln a = \frac{d\ln\rho}{1+w} + \frac{\partial_iT^{i0}}{\rho (1+w)}dt
+%\end{equation}
+%with $w=P/\rho$ not having a spatial average in the above.
+%\begin{equation}
+%  \frac{d\ln\rho_{ave}}{dt} + 3\frac{d\ln a}{dt}(1+\frac{P_{ave}}{\rho_{ave}}) = 0
+%\end{equation}
+%nonlinear generalization of $\zeta$
+%\begin{equation}
+%  \zeta_{NL} = \frac{1}{3(1+w_{sh})}\left(3\int (1+w)d\ln(a) + \ln\bar{\rho} \right)
+%\end{equation}
+%relate the current part to entropy generation.  This then connects with the rest of the paper.
+
+%\begin{itemize}
+%  \item if entropy is actually constant after the shock, then we could define an ``entropy reheat temperature'', which is the temperature that a plasma with the same entropy would have (in comparison to the usual definition based on instaneous decay where the plasma is assumed to have the same energy density)
+%  \item Many caveats to doing this, 1. need to properly compute the Jacobian factor (since entropy isn't constant in the field variables), 2. Do the field dynamics work the same way when we couple to many other fields, or when we couple to  say a perfect fluid?
+%  \item Saying anything along these lines is probably open to attack (although it's probably very reasonable to say instantaneous decay isn't a very good approximation)
+%\end{itemize}
+
+\section{Conclusion}
+In this chapter we studied the production of entropy during the preheating phase following inflation.
+If we broadly define preheating as the cosmological epoch between the end of inflation, when $\epsilon = 1$, and the establishment of a dense plasma in local thermal equilibrium with some temperature $T_{rh}$ then \emph{all} of the entropy of the primordial plasma must be generated during this transition.
+To explore this regime of tremendous entropy production, we introduced the Shannon entropy as our definition of the system entropy.
+A full calculation of the Shannon entropy would require full knowledge of the probability density functional for the fields.
+Obtaining such a large amount of information about the fields is unrealistic.
+Therefore, we obtained a coarse-grained entropy by assuming we had access to only the two point-correlations of the fields and maximizing the Shannon entropy subject to this constraint.
+
+Based on this procedure, we found that for simple models of preheating based on broad parametric resonance there is a rapid production of entropy over a short time-interval around the onset of strong nonlinearity in the system.
+This rapid change in the entropy is very similar to the jump in entropy across a hydrodynamic shock.
+For this reason, we have coined the phrase \emph{shock-in-time} for the transition from a state of coherent oscillating scalars to a state of inhomogeneous nonlinearly interacting fluctuations.
+We demonstrated that the existence of the shock was robust to our choice of coarse-grained fields by explicitly computing the entropy in energy phonons ($\lnr$,$\dlnr$) and in the fundamental fields and momenta $(\phi_i,\Pi_{\phi_i})$.
+
+Further investigation into the evolution of the fields and the post-shock cascade revealed that the low-order statistics of the energy phonons were remarkably Gaussian except for a brief time interval around the shock-in-time.
+Meanwhile the fields remained significantly nonGaussian well after the shock,
+with the (subNyquist) nonGaussianity concentrated in comoving wavenumbers $k \sim 150m$.
+We also investigated the development of cross-correlations between the various fields, including their impact on entropies based on measurements of the full covariance matrix.
+
+One disturbing feature of the Shannon entropy was that the entropy in the field and energy phonon descriptions were not equal.
+While this is to be expected in the complex post-shock state,
+prior to the shock the energy phonons can be expressed linearly in terms of the field fluctuations.
+Therefore, there should be a linear transformation between the two variable sets.
+Since no information is lost in making such a transformation, 
+we would like our definition of entropy to give the same result in either basis prior to the shock.
+To address this we introduced a noncanonical version of the Shannon entropy and related it to the von Neumann entropy.
+Using single-field massless preheating as an example, we demonstrated that during the linear stages our noncanonical entropy was the same using either the fundamental fields or the energy phonons as our collective coordinates.
+
+Finally, as an application of the shock-in-time concept, we studied the production of adiabatic curvature perturbations mediated by the large-scale variation of coupling constants in the potential.
+The shock accurately tracks the transition from the low-entropy coherent condensate to a high-entropy fluctuation dominated medium.
+Except for very special models, the pre- and post-shock states will have different equations of state.
+Therefore, modulations in the time of the shock between different Hubble patches at the end of inflation produce a corresponding adiabatic curvature perturbation.
+These perturbations are nonGaussian, but have a very different form than is usually assumed for primordial nonGaussianities.
+
+\end{document}
